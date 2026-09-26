@@ -98,65 +98,72 @@ The server will start at `http://localhost:8000`.
 
 ## 🔌 API Endpoints
 
-### 1. Rank Resumes
-- **Endpoint**: `POST /api/rank-resumes` (also available as `POST /api/v1/rank-resumes`)
-- **Description**: Ranks candidates against job requirements. Supports empty POST requests or full candidate payloads.
+## 🔌 API Endpoints
 
-#### Example Request:
+### 1. Rank Resumes from Uploaded PDFs
+- **Endpoint**: `POST /api/rank-resumes` (also mounted as `POST /api/v1/rank-resumes`)
+- **Content-Type**: `multipart/form-data`
+- **Fields**:
+  - `job_requirements` (`string`): Freeform or structured text describing the role, required experience, and mandatory skills.
+  - `resumes` (`list[file]`): One or more PDF resume files.
+
+#### cURL Example:
+```bash
+curl -X POST "http://localhost:8000/api/rank-resumes" \
+  -F "job_requirements=Senior Python Backend Engineer with FastAPI, Docker, and PostgreSQL expertise" \
+  -F "resumes=@/path/to/candidate_a.pdf" \
+  -F "resumes=@/path/to/candidate_b.pdf"
+```
+
+#### Example Output (Sorted by `fit_score` Descending):
 ```json
-{
-  "job_description": {
-    "title": "Senior Python Backend Engineer",
-    "required_skills": ["Python", "FastAPI", "Docker", "PostgreSQL"]
+[
+  {
+    "candidate_name": "Bob Senior Architect",
+    "fit_score": 94.0,
+    "key_strengths": [
+      "8+ years of production Python and FastAPI microservices architecture",
+      "Extensive Docker container orchestration and PostgreSQL database tuning"
+    ],
+    "missing_requirements": [],
+    "verdict": "Strong Match - Recommended for Interview"
   },
-  "resumes": [
-    {
-      "id": "cand-001",
-      "candidate_name": "Alice Developer",
-      "skills": ["Python", "FastAPI"]
-    },
-    {
-      "id": "cand-002",
-      "candidate_name": "Bob Senior Architect",
-      "skills": ["Python", "FastAPI", "Docker", "PostgreSQL", "Kubernetes"]
-    }
-  ],
-  "threshold_score": 0.0,
-  "top_n": 5
-}
+  {
+    "candidate_name": "Alice Junior",
+    "fit_score": 52.0,
+    "key_strengths": [
+      "Proficient in Python scripting and basic web development"
+    ],
+    "missing_requirements": [
+      "Lacks hands-on experience with FastAPI in production",
+      "Limited knowledge of PostgreSQL query optimization"
+    ],
+    "verdict": "Potential Match - Consider for Junior / Secondary Review"
+  }
+]
 ```
 
-#### Example Response:
-```json
-{
-  "status": "success",
-  "message": "Successfully ranked 2 candidate(s).",
-  "total_candidates": 2,
-  "results": [
-    {
-      "rank": 1,
-      "candidate_id": "cand-002",
-      "candidate_name": "Bob Senior Architect",
-      "score": 100.0,
-      "match_percentage": 100.0,
-      "matched_skills": ["Python", "FastAPI", "Docker", "PostgreSQL"],
-      "missing_skills": [],
-      "summary": "Matched 4 of 4 required skills."
-    },
-    {
-      "rank": 2,
-      "candidate_id": "cand-001",
-      "candidate_name": "Alice Developer",
-      "score": 50.0,
-      "match_percentage": 50.0,
-      "matched_skills": ["Python", "FastAPI"],
-      "missing_skills": ["Docker", "PostgreSQL"],
-      "summary": "Matched 2 of 4 required skills."
-    }
-  ],
-  "processed_at": "2026-09-27T05:00:00Z"
-}
+---
+
+## 🤖 LLM Configuration
+
+The application supports **Google Gemini API** (`gemini-2.5-flash` / `gemini-2.0-flash`) and **OpenAI API** (`gpt-4o-mini` / `gpt-4o`).
+
+Configure your credentials in `.env`:
+
+```env
+# For Google Gemini (Recommended):
+LLM_PROVIDER="gemini"
+GEMINI_API_KEY="AIzaSy..."
+GEMINI_MODEL="gemini-2.5-flash"
+
+# Or for OpenAI:
+LLM_PROVIDER="openai"
+OPENAI_API_KEY="sk-..."
+OPENAI_MODEL="gpt-4o-mini"
 ```
+
+*Note: If no API keys are provided, the backend falls back to an intelligent heuristic screener for seamless offline testing and local development.*
 
 ---
 
