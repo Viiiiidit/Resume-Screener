@@ -1,31 +1,38 @@
 """
 Resume ranking API endpoints.
-Provides endpoints for evaluating and ranking resumes against job descriptions.
+Provides endpoints for evaluating and ranking uploaded PDF resumes against job requirements.
 """
 
-from typing import Optional
-from fastapi import APIRouter, Depends, status
-from app.api.deps import get_resume_service
-from app.schemas.resume import RankResumesRequest, RankResumesResponse
-from app.services.base import BaseRankingEngine
+from typing import List
+from fastapi import APIRouter, Depends, File, Form, UploadFile, status
+
+from app.api.deps import get_hr_screening_service
+from app.schemas.screening import CandidateScreeningResult
+from app.services.screening_service import HRResumeScreeningService
 
 router = APIRouter(tags=["Resumes"])
 
 
 @router.post(
     "/rank-resumes",
-    response_model=RankResumesResponse,
+    response_model=List[CandidateScreeningResult],
     status_code=status.HTTP_200_OK,
-    summary="Rank Resumes",
-    description="Evaluates candidate resumes against a specified job description and returns an ordered list ranked by relevance.",
+    summary="Rank Resumes from Uploaded PDFs",
+    description="Accepts job requirements and candidate resume PDFs via multipart/form-data, extracts raw text via PyMuPDF, evaluates candidates with an LLM senior HR screener, and returns candidate evaluations sorted by fit_score in descending order.",
 )
 async def rank_resumes(
-    payload: Optional[RankResumesRequest] = None,
-    service: BaseRankingEngine = Depends(get_resume_service),
-) -> RankResumesResponse:
-    """Endpoint to rank candidate resumes.
-
-    Can be invoked with an empty POST request or a populated request body.
-    """
-    request_data = payload or RankResumesRequest()
-    return await service.rank_resumes(request_data)
+    job_requirements: str = Form(
+        ...,
+        description="Job requirements, mandatory skills, and qualification criteria.",
+    ),
+    resumes: List[UploadFile] = File(
+        ...,
+        description="One or more candidate resume files in PDF format.",
+    ),
+    service: HRResumeScreeningService = Depends(get_hr_screening_service),
+) -> List[CandidateScreeningResult]:
+    """Multipart endpoint to screen and rank candidate resume PDFs."""
+    return await service.rank_resumes(
+        job_requirements=job_requirements,
+        files=resumes,
+    )
