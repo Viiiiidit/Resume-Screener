@@ -9,6 +9,7 @@ from app.schemas.resume import (
     RankResumesResponse,
     ResumeData,
 )
+from app.schemas.screening import CandidateScreeningResult
 
 __all__ = [
     "JobDescription",
@@ -16,4 +17,5 @@ __all__ = [
     "RankResumesRequest",
     "RankedCandidate",
     "RankResumesResponse",
+    "CandidateScreeningResult",
 ]
