@@ -44,6 +44,14 @@ class Settings(BaseSettings):
         "http://127.0.0.1:8080",
     ]
 
+    # LLM Provider Configuration
+    LLM_PROVIDER: str = "gemini"  # "gemini" or "openai"
+    GEMINI_API_KEY: Union[str, None] = None
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+
+    OPENAI_API_KEY: Union[str, None] = None
+    OPENAI_MODEL: str = "gpt-4o-mini"
+
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")
     @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
