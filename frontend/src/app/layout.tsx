@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Mono, Space_Grotesk } from "next/font/google";
+import { Space_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
 const spaceMono = Space_Mono({
@@ -8,15 +8,14 @@ const spaceMono = Space_Mono({
   variable: "--font-mono",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  weight: ["400", "600", "700"],
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: "VISTA.IO // TALENT ANALYSIS | Autonomous Candidate Ranking",
-  description: "The standard in new data analysis. High-throughput neural resume screening and candidate evaluation.",
+  title: "VISTA.IO | Advanced Data Analytics Platform",
+  description: "The standard in new data analysis. Use data to get a 360-degree view of your business.",
 };
 
 export default function RootLayout({
@@ -25,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceMono.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-screen flex flex-col bg-black text-white font-sans antialiased selection:bg-[#FF3333] selection:text-white">
+    <html lang="en" className={`${spaceMono.variable} ${inter.variable} scroll-smooth`}>
+      <body className="min-h-screen flex flex-col bg-black text-white font-sans antialiased selection:bg-[#FF5050] selection:text-white">
         {children}
       </body>
     </html>

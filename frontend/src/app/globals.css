@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
   --font-mono: var(--font-mono);
   --font-sans: var(--font-sans);
 }
@@ -15,26 +13,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Starry / Cosmic Particle Background for Hero */
-.starry-bg {
-  background-color: #000000;
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 90px 40px, #FF3333, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 160px 120px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 230px 190px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 300px 80px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 380px 240px, #FF4438, rgba(0,0,0,0)),
-    radial-gradient(circle at 50% -20%, rgba(255, 51, 51, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-  background-repeat: repeat;
-  background-size: 400px 300px, 400px 300px, 400px 300px, 400px 300px, 400px 300px, 400px 300px, 400px 300px, 100% 100%;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono), monospace;
 }
 
-/* Futuristic Technical Scrollbar */
+/* Subtle Starry/Particle Background Pattern for Hero */
+.starry-hero-bg {
+  background-color: #000000;
+  background-image: 
+    radial-gradient(1px 1px at 25px 35px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.2px 1.2px at 85px 75px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 150px 180px, #FF5050, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 220px 90px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 310px 240px, rgba(255,255,255,0.85), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 390px 140px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.2px 1.2px at 470px 290px, #FF5050, rgba(0,0,0,0)),
+    radial-gradient(circle at 50% 0%, rgba(255, 80, 80, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+  background-repeat: repeat;
+  background-size: 500px 350px, 500px 350px, 500px 350px, 500px 350px, 500px 350px, 500px 350px, 500px 350px, 100% 100%;
+}
+
+/* Minimal Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -42,10 +44,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #273a2c;
+  background: #3B403D;
   border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF3333;
+  background: #FF5050;
 }
