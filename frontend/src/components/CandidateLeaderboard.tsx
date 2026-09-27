@@ -6,13 +6,11 @@ import {
   ChevronDown,
   CheckCircle2,
   AlertTriangle,
-  FileText,
   Download,
   RotateCcw,
-  Terminal,
   Search,
-  Zap,
 } from "lucide-react";
+import ScoreRing from "./ScoreRing";
 
 interface CandidateLeaderboardProps {
   candidates: CandidateScreeningResult[];
@@ -74,22 +72,22 @@ export default function CandidateLeaderboard({
   return (
     <div
       id="candidate-leaderboard"
-      className="bg-[#0e1610] border border-[#233828] p-6 sm:p-8 rounded-none shadow-2xl space-y-6"
+      className="bg-[#3B403D] border border-white/10 p-6 sm:p-8 rounded-none shadow-2xl space-y-6"
     >
       {/* Leaderboard Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-[#233828] gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-white/10 gap-4">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="w-2.5 h-2.5 bg-[#FF3333] rounded-none" />
+            <div className="w-3 h-3 bg-[#FF5050] rotate-45 shrink-0" />
             <h2 className="font-mono text-sm sm:text-base font-bold text-white uppercase tracking-widest flex items-center space-x-2">
-              <span>// 03. RANKED CANDIDATE MATRIX</span>
+              <span>Candidate Leaderboard</span>
             </h2>
-            <span className="px-2 py-0.5 font-mono text-[10px] uppercase font-bold bg-[#FF3333]/15 text-[#FF3333] border border-[#FF3333]/40">
-              {candidates.length} PROCESSED
+            <span className="px-2.5 py-0.5 font-mono text-[10px] uppercase font-bold bg-[#FF5050] text-white">
+              {candidates.length} Ranked
             </span>
           </div>
-          <p className="font-mono text-xs text-neutral-400 mt-1 uppercase tracking-wider">
-            Autonomous multi-vector ranking • Click row to inspect neural breakdown
+          <p className="font-mono text-xs text-gray-300 mt-1 uppercase tracking-wider">
+            Rank-ordered by AI Fit Score • Click row to expand breakdown
           </p>
         </div>
 
@@ -99,226 +97,203 @@ export default function CandidateLeaderboard({
             type="button"
             id="export-results-btn"
             onClick={exportResultsJSON}
-            className="flex items-center space-x-1.5 px-3 py-2 rounded-none bg-[#142117] hover:bg-[#1b2e20] border border-[#27402d] hover:border-[#FF3333]/50 font-mono text-xs uppercase font-semibold text-neutral-200 transition-colors cursor-pointer"
-            title="Export candidate ranking data to JSON"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-black/60 hover:bg-black/90 border border-white/15 text-white font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+            title="Download JSON Analysis"
           >
-            <Download className="w-3.5 h-3.5 text-[#FF3333]" />
-            <span>EXPORT JSON</span>
+            <Download className="w-3.5 h-3.5 text-[#FF5050]" />
+            <span>Export</span>
           </button>
 
           <button
             type="button"
-            id="reset-screening-btn"
+            id="reset-screener-btn"
             onClick={onReset}
-            className="flex items-center space-x-1.5 px-3 py-2 rounded-none bg-[#142117] hover:bg-[#1b2e20] border border-[#27402d] hover:border-[#FF3333]/50 font-mono text-xs uppercase font-semibold text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            title="Start new screening evaluation"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#FF5050] hover:bg-[#e64040] text-white font-mono text-xs uppercase font-bold tracking-wider transition-colors cursor-pointer"
+            title="Reset and screen new batch"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-neutral-400" />
-            <span>RESET</span>
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>New Screen</span>
           </button>
         </div>
       </div>
 
-      {/* Filter and Accordion controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 font-mono text-xs">
-        {/* Search */}
-        <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-neutral-500 pointer-events-none" />
+      {/* Filter & View Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+        {/* Search input */}
+        <div className="relative flex-1 max-w-sm">
+          <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
+            id="search-candidates-input"
             type="text"
-            id="candidate-search-input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="FILTER DOSSIERS BY CANDIDATE NAME, STRENGTHS, KEYWORDS..."
-            className="w-full bg-[#080d09] border border-[#233828] focus:border-[#FF3333] focus:ring-1 focus:ring-[#FF3333] pl-9 pr-3 py-2 text-xs text-white placeholder-neutral-600 uppercase tracking-wider focus:outline-none transition-all rounded-none"
+            placeholder="Filter candidates or strengths..."
+            className="w-full pl-9 pr-3 py-1.5 bg-black/60 border border-white/15 text-white font-mono text-xs placeholder:text-gray-500 focus:outline-none focus:border-[#FF5050] rounded-none"
           />
         </div>
 
         {/* Expand / Collapse All */}
-        <div className="flex items-center space-x-2 shrink-0 justify-end font-mono text-[11px] uppercase tracking-wider">
+        <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-wider text-gray-300">
           <button
             type="button"
             onClick={expandAll}
-            className="text-neutral-400 hover:text-[#FF3333] px-2 py-1 transition-colors"
+            className="hover:text-[#FF5050] transition-colors cursor-pointer"
           >
-            EXPAND ALL
+            [ Expand All ]
           </button>
-          <span className="text-neutral-600">//</span>
+          <span>•</span>
           <button
             type="button"
             onClick={collapseAll}
-            className="text-neutral-400 hover:text-[#FF3333] px-2 py-1 transition-colors"
+            className="hover:text-[#FF5050] transition-colors cursor-pointer"
           >
-            COLLAPSE ALL
+            [ Collapse All ]
           </button>
         </div>
       </div>
 
-      {/* Candidate List (Rank 1 to N) */}
-      <div className="space-y-4">
-        {filteredCandidates.map((candidate, index) => {
-          const rank = index + 1;
-          const isExpanded = expandedIndices.has(index);
+      {/* Candidates List */}
+      <div className="space-y-3">
+        {filteredCandidates.length === 0 ? (
+          <div className="py-12 text-center font-mono text-xs uppercase tracking-widest text-gray-400 bg-black/40 border border-white/10 p-6">
+            [ No candidates match search query &quot;{searchQuery}&quot; ]
+          </div>
+        ) : (
+          filteredCandidates.map((candidate, idx) => {
+            const isExpanded = expandedIndices.has(idx);
+            const rank = idx + 1;
 
-          return (
-            <div
-              key={`${candidate.candidate_name}-${index}`}
-              id={`candidate-card-${rank}`}
-              className={`border transition-all duration-200 rounded-none overflow-hidden ${
-                isExpanded
-                  ? "bg-[#111a13] border-[#FF3333] shadow-[0_0_20px_rgba(255,51,51,0.15)]"
-                  : "bg-[#0b120e] border-[#233828] hover:border-[#2f4b36]"
-              }`}
-            >
-              {/* Clickable Card Header / Row */}
+            return (
               <div
-                id={`candidate-row-${rank}`}
-                role="button"
-                tabIndex={0}
-                onClick={() => toggleExpand(index)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    toggleExpand(index);
-                  }
-                }}
-                className="p-5 sm:p-6 cursor-pointer select-none"
+                key={`${candidate.candidate_name}-${idx}`}
+                id={`candidate-card-${idx}`}
+                className="bg-black/60 border border-white/10 hover:border-[#FF5050]/60 transition-all rounded-none overflow-hidden"
               >
-                <div className="flex items-start justify-between gap-4">
-                  {/* Left: Rank Badge & Candidate Identity with Huge Coral/Red Score */}
-                  <div className="min-w-0">
-                    <div className="flex items-center space-x-2 mb-2 font-mono text-[11px] uppercase tracking-widest text-neutral-400">
-                      <span className="text-[#FF3333] font-bold">
-                        #{rank.toString().padStart(2, "0")}
-                      </span>
-                      <span>// CANDIDATE PROFILE</span>
-                      {rank === 1 && (
-                        <span className="px-2 py-0.5 text-[9px] font-bold uppercase bg-[#FF3333] text-white tracking-widest">
-                          TOP MATCH
-                        </span>
-                      )}
-                    </div>
-
-                    {/* VISTA.IO STATISTIC PRESENTATION:
-                        Large, bold, coral/red typography for the score,
-                        with candidate's name in crisp white text below their red score */}
-                    <div className="flex flex-col">
-                      <div className="flex items-baseline space-x-2">
-                        <span className="text-4xl sm:text-5xl font-mono font-black text-[#FF3333] tracking-tighter leading-none">
-                          {Math.round(candidate.fit_score)}
-                        </span>
-                        <span className="font-mono text-base text-[#FF3333]/70 font-bold">
-                          /100
-                        </span>
-                      </div>
-
-                      <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider mt-1.5 truncate">
-                        {candidate.candidate_name || `Applicant Dossier #${rank}`}
-                      </h3>
-                    </div>
-
-                    <div className="mt-3">
-                      <span className="inline-block font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 bg-[#19281e] border border-[#284231] text-emerald-300">
-                        {candidate.verdict}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Right: Expand Chevron with rotation */}
-                  <div className="shrink-0 pt-1">
+                {/* Clickable Row Header */}
+                <div
+                  id={`candidate-row-${idx}`}
+                  onClick={() => toggleExpand(idx)}
+                  className="p-4 sm:p-5 flex items-center justify-between cursor-pointer select-none group"
+                >
+                  <div className="flex items-center space-x-4">
+                    {/* Rank Badge */}
                     <div
-                      className={`w-8 h-8 rounded-none border border-[#233828] bg-[#142117] flex items-center justify-center text-neutral-300 transition-transform duration-300 ${
-                        isExpanded ? "rotate-180 border-[#FF3333] text-[#FF3333]" : ""
+                      className={`w-9 h-9 flex items-center justify-center font-mono font-bold text-xs shrink-0 ${
+                        rank === 1
+                          ? "bg-[#FF5050] text-white"
+                          : rank === 2
+                          ? "bg-white/20 text-white"
+                          : "bg-black border border-white/15 text-gray-300"
                       }`}
                     >
-                      <ChevronDown className="w-4 h-4" />
+                      #{rank}
+                    </div>
+
+                    {/* Candidate Name & Verdict preview */}
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <h3 className="font-mono text-sm sm:text-base font-bold text-white group-hover:text-[#FF5050] transition-colors">
+                          {candidate.candidate_name}
+                        </h3>
+                        {rank === 1 && (
+                          <span className="px-2 py-0.5 bg-[#FF5050]/20 text-[#FF5050] border border-[#FF5050]/40 font-mono text-[10px] uppercase font-bold">
+                            TOP FIT
+                          </span>
+                        )}
+                      </div>
+                      <p className="font-sans text-xs text-gray-300 line-clamp-1 mt-0.5">
+                        {candidate.verdict}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right Score Ring & Expand indicator */}
+                  <div className="flex items-center space-x-4">
+                    <ScoreRing score={candidate.fit_score} size={50} strokeWidth={4} />
+                    <div className="w-6 h-6 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          isExpanded ? "rotate-180 text-[#FF5050]" : ""
+                        }`}
+                      />
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Fluid Sliding Transition Drawer for Pros, Cons & Verdict */}
-              <div
-                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
-                  isExpanded
-                    ? "grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0 pointer-events-none"
-                }`}
-              >
-                <div className="overflow-hidden">
+                {/* Expanded Details Breakdown */}
+                {isExpanded && (
                   <div
-                    id={`candidate-details-${rank}`}
-                    className="p-5 sm:p-6 border-t border-[#233828] bg-[#090f0b] space-y-4 font-mono text-xs"
+                    id={`candidate-details-${idx}`}
+                    className="p-5 pt-0 border-t border-white/10 bg-black/40 space-y-4"
                   >
-                    {/* Verdict Callout */}
-                    <div className="p-3.5 bg-[#121c15] border border-[#243929] flex items-start space-x-3">
-                      <Terminal className="w-4 h-4 text-[#FF3333] shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-bold text-white uppercase tracking-widest">
-                          HR EVALUATION SUMMARY:
+                    {/* Verdict Box */}
+                    <div className="p-4 bg-black/80 border border-white/10 mt-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="w-2 h-2 bg-[#FF5050] rotate-45 shrink-0" />
+                        <span className="font-mono text-xs uppercase font-bold text-white tracking-wider">
+                          Executive Evaluation Verdict
                         </span>
-                        <p className="text-neutral-300 mt-1 leading-relaxed">
-                          {candidate.verdict}
-                        </p>
                       </div>
+                      <p className="font-sans text-sm text-gray-200 leading-relaxed">
+                        {candidate.verdict}
+                      </p>
                     </div>
 
-                    {/* Key Strengths (Pros) */}
-                    <div>
-                      <div className="flex items-center space-x-2 font-bold text-emerald-400 uppercase tracking-widest mb-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                        <span>QUALIFICATION ADVANTAGES (PROS):</span>
-                      </div>
-                      {candidate.key_strengths && candidate.key_strengths.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {candidate.key_strengths.map((strength, sIdx) => (
-                            <div
-                              key={sIdx}
-                              className="p-2.5 bg-[#122116] border border-[#203c28] text-emerald-100 text-[11px] leading-snug flex items-start space-x-2"
-                            >
-                              <span className="text-emerald-400 font-bold shrink-0">//</span>
-                              <span>{strength}</span>
-                            </div>
-                          ))}
+                    {/* Strengths & Missing Requirements Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Key Strengths */}
+                      <div className="p-4 bg-black/60 border border-white/10">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5050]" />
+                          <span className="font-mono text-xs uppercase font-bold text-white tracking-wider">
+                            Key Strengths ({candidate.key_strengths.length})
+                          </span>
                         </div>
-                      ) : (
-                        <p className="text-neutral-500 italic text-[11px]">
-                          NO SPECIFIC ADVANTAGES RECORDED.
-                        </p>
-                      )}
-                    </div>
+                        <ul className="space-y-1.5 font-sans text-xs text-gray-300">
+                          {candidate.key_strengths.length > 0 ? (
+                            candidate.key_strengths.map((str, sIdx) => (
+                              <li key={sIdx} className="flex items-start space-x-2">
+                                <span className="text-[#FF5050] font-mono select-none">›</span>
+                                <span>{str}</span>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="font-mono text-gray-500">[ No explicit strengths highlighted ]</li>
+                          )}
+                        </ul>
+                      </div>
 
-                    {/* Missing Requirements (Cons) */}
-                    <div>
-                      <div className="flex items-center space-x-2 font-bold text-[#FF6B6B] uppercase tracking-widest mb-2">
-                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                        <span>REQUISITE SHORTFALLS (CONS):</span>
+                      {/* Missing Requirements */}
+                      <div className="p-4 bg-black/60 border border-white/10">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                          <span className="font-mono text-xs uppercase font-bold text-white tracking-wider">
+                            Missing Requirements ({candidate.missing_requirements.length})
+                          </span>
+                        </div>
+                        <ul className="space-y-1.5 font-sans text-xs text-gray-300">
+                          {candidate.missing_requirements.length > 0 ? (
+                            candidate.missing_requirements.map((miss, mIdx) => (
+                              <li key={mIdx} className="flex items-start space-x-2">
+                                <span className="text-amber-400 font-mono select-none">›</span>
+                                <span>{miss}</span>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="font-mono text-gray-300 flex items-center space-x-1.5">
+                              <span className="text-[#FF5050] font-bold">✓</span>
+                              <span>All target criteria satisfied</span>
+                            </li>
+                          )}
+                        </ul>
                       </div>
-                      {candidate.missing_requirements &&
-                      candidate.missing_requirements.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {candidate.missing_requirements.map((missing, mIdx) => (
-                            <div
-                              key={mIdx}
-                              className="p-2.5 bg-[#201212] border border-[#3f2121] text-[#FF9B9B] text-[11px] leading-snug flex items-start space-x-2"
-                            >
-                              <span className="text-[#FF3333] font-bold shrink-0">//</span>
-                              <span>{missing}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="p-2.5 bg-[#122116] border border-[#203c28] text-emerald-300 text-[11px]">
-                          ✓ FULL CRITERIA SATISFACTION VERIFIED.
-                        </div>
-                      )}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

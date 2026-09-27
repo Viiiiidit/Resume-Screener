@@ -11,7 +11,7 @@ interface ScoreRingProps {
 
 export default function ScoreRing({
   score,
-  size = 52,
+  size = 56,
   strokeWidth = 4,
   showPercent = true,
 }: ScoreRingProps) {
@@ -23,22 +23,22 @@ export default function ScoreRing({
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (normalizedScore / 100) * circumference;
 
-  // Determine color scheme based on fit_score for light dashboard
+  // Determine color scheme based on VISTA.IO palette
   const getColorScheme = () => {
     if (normalizedScore >= 75) {
       return {
-        stroke: "#059669", // emerald-600
-        text: "text-emerald-700",
+        stroke: "#FF5050", // VISTA.IO Coral Red
+        text: "text-[#FF5050]",
       };
     } else if (normalizedScore >= 50) {
       return {
-        stroke: "#d97706", // amber-600
-        text: "text-amber-700",
+        stroke: "#F59E0B", // Amber warning
+        text: "text-amber-400",
       };
     } else {
       return {
-        stroke: "#e11d48", // rose-600
-        text: "text-rose-700",
+        stroke: "#71717A", // Zinc muted
+        text: "text-zinc-400",
       };
     }
   };
@@ -57,12 +57,12 @@ export default function ScoreRing({
         className="-rotate-90 transform overflow-visible"
         aria-hidden="true"
       >
-        {/* Background track circle (subtle light gray) */}
+        {/* Background track circle */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#f1f5f9"
+          stroke="#262626"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
@@ -84,7 +84,7 @@ export default function ScoreRing({
       {/* Centered score text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span
-          className={`font-semibold font-mono leading-none ${scheme.text} ${
+          className={`font-bold font-mono leading-none ${scheme.text} ${
             size >= 60 ? "text-base" : "text-xs"
           }`}
         >

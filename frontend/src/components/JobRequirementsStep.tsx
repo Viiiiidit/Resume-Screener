@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Eraser, Sparkles, Terminal, Check } from "lucide-react";
+import { Eraser, Terminal, Check } from "lucide-react";
 
 interface JobRequirementsStepProps {
   value: string;
@@ -34,14 +34,14 @@ export default function JobRequirementsStep({
   const charCount = value.length;
 
   return (
-    <div className="bg-[#131d16] border border-[#233828] p-6 sm:p-7 shadow-lg relative rounded-none transition-all">
-      {/* Top accent badge */}
-      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#233828]">
+    <div className="bg-[#3B403D] border border-white/10 p-6 sm:p-7 shadow-2xl relative rounded-none transition-all">
+      {/* Top accent header */}
+      <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
         <div className="flex items-center space-x-3">
-          <div className="w-2.5 h-2.5 bg-[#FF3333] rounded-none" />
-          <span className="font-mono text-xs uppercase font-bold text-white tracking-widest">
-            // 01. TARGET REQUIREMENTS VECTOR
-          </span>
+          <div className="w-3 h-3 bg-[#FF5050] rotate-45 shrink-0" />
+          <h2 className="font-mono text-sm uppercase font-bold text-white tracking-widest">
+            1. Enter Job Requirements
+          </h2>
         </div>
 
         {value && (
@@ -49,9 +49,9 @@ export default function JobRequirementsStep({
             type="button"
             id="clear-job-requirements-btn"
             onClick={() => onChange("")}
-            className="flex items-center space-x-1 font-mono text-[11px] uppercase tracking-wider text-neutral-400 hover:text-[#FF3333] transition-colors"
+            className="flex items-center space-x-1.5 font-mono text-xs uppercase tracking-wider text-gray-300 hover:text-[#FF5050] transition-colors cursor-pointer"
           >
-            <Eraser className="w-3 h-3" />
+            <Eraser className="w-3.5 h-3.5" />
             <span>Clear</span>
           </button>
         )}
@@ -59,8 +59,8 @@ export default function JobRequirementsStep({
 
       {/* Quick Presets */}
       <div className="mb-4">
-        <div className="flex items-center space-x-1.5 mb-2 font-mono text-[11px] uppercase tracking-wider text-emerald-300/80">
-          <Terminal className="w-3 h-3 text-[#FF3333]" />
+        <div className="flex items-center space-x-2 mb-2 font-mono text-xs uppercase tracking-wider text-gray-300">
+          <Terminal className="w-3.5 h-3.5 text-[#FF5050]" />
           <span>Preset Profiles:</span>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -70,7 +70,7 @@ export default function JobRequirementsStep({
               type="button"
               id={`preset-${preset.title.toLowerCase().replace(/\s+/g, "-")}`}
               onClick={() => onChange(preset.content)}
-              className="font-mono text-xs px-3 py-1.5 rounded-none bg-[#19291e] hover:bg-[#233a2a] hover:border-[#FF3333]/50 border border-[#294230] text-emerald-100 uppercase tracking-wider transition-all cursor-pointer"
+              className="font-mono text-xs px-3 py-1.5 rounded-none bg-black/50 hover:bg-black/80 hover:border-[#FF5050] border border-white/15 text-white uppercase tracking-wider transition-all cursor-pointer"
             >
               {preset.title}
             </button>
@@ -85,24 +85,24 @@ export default function JobRequirementsStep({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={6}
-          placeholder="ENTER OR PASTE TARGET JOB PROFILE, REQUIRED TECH MATRIX, MUST-HAVE DOMAIN SKILLS, AND QUALIFICATIONS..."
-          className="w-full bg-[#0b120d] border border-[#233828] focus:border-[#FF3333] focus:ring-1 focus:ring-[#FF3333] p-4 font-mono text-xs text-white placeholder-neutral-600 focus:outline-none transition-all resize-y min-h-[140px] leading-relaxed rounded-none"
+          placeholder="ENTER OR PASTE TARGET JOB CRITERIA, REQUIRED SKILL MATRIX, EXPERIENCE LEVEL, AND DOMAIN QUALIFICATIONS..."
+          className="w-full bg-black/70 border border-white/15 focus:border-[#FF5050] focus:ring-1 focus:ring-[#FF5050] p-4 font-mono text-xs text-white placeholder:text-gray-500 focus:outline-none transition-all resize-y min-h-[140px] leading-relaxed rounded-none"
         />
 
         {value.trim().length > 30 && (
-          <div className="absolute top-3 right-3 text-emerald-400 font-mono text-[10px] tracking-widest uppercase flex items-center space-x-1 bg-[#131d16] px-2 py-0.5 border border-emerald-500/40">
-            <Check className="w-3 h-3 text-emerald-400" />
-            <span>SYNTAX OK</span>
+          <div className="absolute top-3 right-3 text-[#FF5050] font-mono text-[10px] tracking-widest uppercase flex items-center space-x-1 bg-black/90 px-2 py-0.5 border border-[#FF5050]/40">
+            <Check className="w-3 h-3 text-[#FF5050]" />
+            <span>CRITERIA READY</span>
           </div>
         )}
       </div>
 
       {/* Footer Meta */}
-      <div className="flex items-center justify-between mt-3 text-[11px] font-mono text-neutral-400 uppercase tracking-wider">
+      <div className="flex items-center justify-between mt-3 text-xs font-mono text-gray-300 uppercase tracking-wider">
         <span>
-          {charCount} CHARS // {wordCount} TOKENS
+          {charCount} CHARS • {wordCount} WORDS
         </span>
-        <span className="text-[#FF3333]">CRITERIA_ACTIVE</span>
+        <span className="text-[#FF5050] font-bold">CRITERIA_ACTIVE</span>
       </div>
     </div>
   );

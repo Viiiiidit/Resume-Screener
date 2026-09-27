@@ -39,7 +39,7 @@ export default function LoadingScreeningState({
   useEffect(() => {
     const stepInterval = setInterval(() => {
       setActiveStep((prev) => (prev < PROCESSING_STEPS.length - 1 ? prev + 1 : prev));
-    }, 2400);
+    }, 2200);
 
     const timerInterval = setInterval(() => {
       setSecondsElapsed((prev) => prev + 1);
@@ -54,82 +54,87 @@ export default function LoadingScreeningState({
   return (
     <div
       id="ai-processing-state"
-      className="bg-[#0e1610] border border-[#233828] p-8 sm:p-10 rounded-none shadow-2xl text-center font-mono"
+      className="bg-[#3B403D] border border-white/10 p-8 sm:p-10 rounded-none shadow-2xl text-center font-mono"
     >
       {/* Animated Center Orb with red accent */}
       <div className="relative mx-auto w-16 h-16 mb-6 flex items-center justify-center">
-        <div className="absolute inset-0 bg-[#FF3333]/20 animate-ping" />
-        <div className="relative w-14 h-14 bg-[#142117] border border-[#FF3333] flex items-center justify-center shadow-[0_0_20px_rgba(255,51,51,0.4)]">
-          <Loader2 className="w-6 h-6 text-[#FF3333] animate-spin" />
+        <div className="absolute inset-0 bg-[#FF5050] opacity-20 blur-xl animate-pulse" />
+        <div className="relative w-14 h-14 bg-black/80 border border-[#FF5050] flex items-center justify-center">
+          <Loader2 className="w-7 h-7 text-[#FF5050] animate-spin" />
         </div>
       </div>
 
-      {/* Main Title */}
-      <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-widest">
-        // NEURAL CANDIDATE EVALUATION IN PROGRESS
-      </h3>
-      <p className="text-xs text-neutral-400 mt-1 uppercase tracking-wider max-w-md mx-auto">
-        PROCESSING {fileCount} DOSSIER{fileCount === 1 ? "" : "S"} AGAINST REQUIREMENTS MATRIX.
-      </p>
-
-      {/* Timer badge */}
-      <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#142117] border border-[#27402d] text-xs text-[#FF3333] mt-4">
-        <span className="w-1.5 h-1.5 bg-[#FF3333] animate-pulse" />
-        <span>ELAPSED_CYCLES: {secondsElapsed}S</span>
+      <div className="inline-block px-3 py-1 bg-black/60 border border-[#FF5050]/40 text-[#FF5050] text-xs font-bold uppercase tracking-widest mb-3">
+        // SCREENING IN PROGRESS: {fileCount} DOSSIERS
       </div>
 
-      {/* Processing Pipeline Steps */}
-      <div className="mt-8 space-y-3 max-w-md mx-auto text-left">
-        {PROCESSING_STEPS.map((step, idx) => {
-          const StepIcon = step.icon;
-          const isDone = idx < activeStep;
-          const isCurrent = idx === activeStep;
+      <h3 className="font-mono text-xl sm:text-2xl font-bold uppercase tracking-tight text-white mb-2">
+        AI Evaluation Engine Running
+      </h3>
+
+      <p className="font-sans text-xs sm:text-sm text-gray-300 max-w-md mx-auto mb-8 leading-relaxed">
+        FastAPI async worker pool is parsing PDFs and extracting technical competencies concurrently with LLM screening.
+      </p>
+
+      {/* Progress Steps */}
+      <div className="max-w-lg mx-auto space-y-3 text-left">
+        {PROCESSING_STEPS.map((step, index) => {
+          const Icon = step.icon;
+          const isDone = index < activeStep;
+          const isCurrent = index === activeStep;
 
           return (
             <div
               key={step.title}
-              className={`flex items-start space-x-3 p-3.5 border transition-all duration-300 rounded-none ${
+              className={`p-3.5 border transition-all flex items-start space-x-3 ${
                 isCurrent
-                  ? "bg-[#182a1d] border-[#FF3333] shadow-[0_0_15px_rgba(255,51,51,0.15)]"
+                  ? "bg-black/80 border-[#FF5050]"
                   : isDone
-                  ? "bg-[#101b13] border-[#203625] opacity-80"
-                  : "bg-[#090f0b] border-[#18291c] opacity-35"
+                  ? "bg-black/50 border-white/10 opacity-75"
+                  : "bg-black/30 border-white/5 opacity-40"
               }`}
             >
               <div
-                className={`w-7 h-7 flex items-center justify-center shrink-0 text-xs font-bold transition-colors rounded-none ${
+                className={`w-7 h-7 flex items-center justify-center shrink-0 mt-0.5 ${
                   isCurrent
-                    ? "bg-[#FF3333] text-white"
+                    ? "bg-[#FF5050] text-white"
                     : isDone
-                    ? "bg-emerald-950 text-emerald-400 border border-emerald-500/40"
-                    : "bg-[#121c15] text-neutral-600"
+                    ? "bg-white/20 text-white"
+                    : "bg-black/40 text-gray-500"
                 }`}
               >
                 {isCurrent ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 ) : (
-                  <StepIcon className="w-3.5 h-3.5" />
+                  <Icon className="w-3.5 h-3.5" />
                 )}
               </div>
-              <div className="flex-1 min-w-0">
-                <p
-                  className={`text-xs font-bold uppercase tracking-wider ${
-                    isCurrent
-                      ? "text-white"
-                      : isDone
-                      ? "text-emerald-300"
-                      : "text-neutral-500"
-                  }`}
-                >
-                  {step.title}
-                </p>
-                <p className="text-[11px] text-neutral-400 mt-0.5 leading-snug">
+
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`font-mono text-xs uppercase font-bold tracking-wider ${
+                      isCurrent ? "text-[#FF5050]" : "text-white"
+                    }`}
+                  >
+                    {step.title}
+                  </span>
+                  <span className="font-mono text-[10px] text-gray-400">
+                    {isDone ? "[ COMPLETE ]" : isCurrent ? "[ PROCESSING ]" : "[ QUEUED ]"}
+                  </span>
+                </div>
+                <p className="font-sans text-xs text-gray-300 mt-0.5">
                   {step.description}
                 </p>
               </div>
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-8 pt-4 border-t border-white/10 text-xs font-mono text-gray-400 flex items-center justify-between">
+        <span>RUNTIME ENGINE: FASTAPI V2.4</span>
+        <span className="text-white">ELAPSED: {secondsElapsed}s</span>
       </div>
     </div>
   );
