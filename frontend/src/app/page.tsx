@@ -5,11 +5,14 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ServiceCards from "@/components/ServiceCards";
 import TypographySections from "@/components/TypographySections";
+import StatsBar from "@/components/StatsBar";
+import PartnersBanner from "@/components/PartnersBanner";
 import PreFooterCTA from "@/components/PreFooterCTA";
 import Footer from "@/components/Footer";
 import OurServicesSection from "@/components/OurServicesSection";
 import EcosystemSection from "@/components/EcosystemSection";
 import MissionStorySection from "@/components/MissionStorySection";
+import BlogSection from "@/components/BlogSection";
 
 export default function VistaIoPage() {
   return (
@@ -27,13 +30,19 @@ export default function VistaIoPage() {
         {/* 4. Typography Scroll Sections */}
         <TypographySections />
 
-        {/* 5. Pre-Footer CTA */}
+        {/* 5. Statistics Bar */}
+        <StatsBar />
+
+        {/* 6. Partners Banner */}
+        <PartnersBanner />
+
+        {/* 7. Pre-Footer CTA */}
         <PreFooterCTA />
 
-        {/* 6. Footer */}
+        {/* 8. Footer */}
         <Footer />
 
-        {/* 7. Additional Pages/Sections to append below */}
+        {/* 9. Additional Pages/Sections to append below (from video) */}
         {/* Our Services: "Dive Into the New Age of Accelerated Analytics" + 4 cards repeated */}
         <OurServicesSection />
 
@@ -42,6 +51,9 @@ export default function VistaIoPage() {
 
         {/* Mission & Story: "Our Mission", "Our Story", "Experienced Leadership" */}
         <MissionStorySection />
+
+        {/* Our Blog: bg-[#4A534B], "All Posts | Content Creation | Marketing", 3 stacked cards */}
+        <BlogSection />
       </main>
     </div>
   );
