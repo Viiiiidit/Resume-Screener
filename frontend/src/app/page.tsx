@@ -101,57 +101,57 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#090d16] text-slate-100">
-      {/* Top Navigation Bar */}
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900 font-sans">
+      {/* Clean Top Navigation */}
       <Header />
 
-      {/* Main Dashboard Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Dashboard Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* Page Hero Header */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <div className="flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-blue-400 mb-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>AI Talent Acquisition Suite</span>
+              <div className="flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                <Sparkles className="w-3.5 h-3.5 text-gray-600" />
+                <span>Candidate Screening Dashboard</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-                Candidate Screening &amp; Ranking Dashboard
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                Resume Screening &amp; Ranking
               </h1>
-              <p className="text-sm text-slate-400 mt-1">
-                Evaluate applicant resumes with a Senior HR Screener and rank candidates by fit score.
+              <p className="text-sm text-gray-500 mt-1">
+                Evaluate applicant resumes with automated AI screening and rank candidates by fit score.
               </p>
             </div>
 
             {/* Quick status pill */}
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300 self-start sm:self-center">
-              <Layers className="w-4 h-4 text-blue-400" />
-              <span>Two-Step Screening Workflow</span>
+            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 shadow-2xs text-xs font-medium text-gray-600 self-start sm:self-center">
+              <Layers className="w-3.5 h-3.5 text-gray-500" />
+              <span>Two-Step Workflow</span>
             </div>
           </div>
         </div>
 
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Two-Step Input Component (5 cols) */}
-          <section className="lg:col-span-5 space-y-5" aria-label="Screening Inputs">
+          {/* Left Column: Input Section (5 cols) */}
+          <section className="lg:col-span-5 space-y-6" aria-label="Input Section">
             <div className="flex items-center justify-between px-1">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-blue-400" />
-                <span>Input Criteria</span>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center space-x-1.5">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-gray-600" />
+                <span>Input Section</span>
               </h2>
-              <span className="text-xs text-slate-500 font-mono">
+              <span className="text-xs text-gray-400 font-mono">
                 Step 1 &amp; 2
               </span>
             </div>
 
-            {/* Step 1: Job Requirements */}
+            {/* Step 1: Job Requirements Card */}
             <JobRequirementsStep
               value={jobRequirements}
               onChange={setJobRequirements}
             />
 
-            {/* Step 2: Resume PDF Upload Zone */}
+            {/* Step 2: Resume PDF Upload Zone Card */}
             <ResumeUploadStep
               files={resumes}
               onAddFiles={handleAddFiles}
@@ -160,7 +160,7 @@ export default function DashboardPage() {
             />
 
             {/* Primary Action Button: Analyze & Rank Candidates */}
-            <div className="pt-2">
+            <div className="pt-1">
               <AnalyzeButton
                 jobRequirements={jobRequirements}
                 resumeCount={resumes.length}
@@ -170,26 +170,26 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Right Column: Dynamic Stage - Leaderboard, Loading, or Preview (7 cols) */}
-          <section className="lg:col-span-7" aria-label="Results & Analytics">
+          {/* Right Column: Results Leaderboard Card Area (7 cols) */}
+          <section className="lg:col-span-7" aria-label="Results Leaderboard">
             {/* Error Banner */}
             {apiError && (
               <div
                 id="api-error-banner"
-                className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start space-x-3 shadow-lg shadow-rose-500/5 animate-fadeIn"
+                className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start space-x-3 shadow-xs animate-fadeIn"
               >
-                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="font-semibold text-rose-200">
+                  <p className="font-semibold text-red-800">
                     Screening Request Failed
                   </p>
-                  <p className="mt-1 leading-relaxed text-rose-300/90">
+                  <p className="mt-1 leading-relaxed text-red-700">
                     {apiError}
                   </p>
                   <button
                     type="button"
                     onClick={handleAnalyze}
-                    className="mt-2.5 inline-flex items-center space-x-1.5 px-3 py-1 rounded-md bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-[11px] font-semibold text-rose-200 transition-colors cursor-pointer"
+                    className="mt-2.5 inline-flex items-center space-x-1.5 px-3 py-1 rounded-md bg-red-100 hover:bg-red-200 border border-red-300 text-xs font-semibold text-red-800 transition-colors cursor-pointer"
                   >
                     <RefreshCw className="w-3 h-3" />
                     <span>Retry Request</span>
@@ -198,7 +198,7 @@ export default function DashboardPage() {
               </div>
             )}
 
-            {/* Render Candidate Leaderboard when results are ready */}
+            {/* Dynamic Stage: Loading, Leaderboard, or Initial Preview */}
             {isLoading ? (
               <LoadingScreeningState fileCount={resumes.length} />
             ) : candidates.length > 0 ? (
@@ -216,14 +216,16 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/40 py-5 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p>© 2026 TalentRank B2B SaaS. All rights reserved.</p>
-          <p className="flex items-center space-x-2">
-            <span>Powered by FastAPI &amp; Next.js</span>
+      {/* Clean White Footer */}
+      <footer className="border-t border-gray-200 bg-white py-6 text-center text-xs text-gray-500">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p>© 2026 TalentRank. Modern Candidate Screening System.</p>
+          <p className="flex items-center space-x-2 text-gray-400">
+            <span>FastAPI Backend</span>
             <span>•</span>
-            <span>PyMuPDF &amp; LLM HR Engine</span>
+            <span>Next.js Dashboard</span>
+            <span>•</span>
+            <span>PyMuPDF Text Extraction</span>
           </p>
         </div>
       </footer>

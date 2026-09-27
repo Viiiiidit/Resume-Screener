@@ -11,8 +11,8 @@ interface ScoreRingProps {
 
 export default function ScoreRing({
   score,
-  size = 54,
-  strokeWidth = 4.5,
+  size = 52,
+  strokeWidth = 4,
   showPercent = true,
 }: ScoreRingProps) {
   // Normalize score between 0 and 100
@@ -23,28 +23,22 @@ export default function ScoreRing({
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (normalizedScore / 100) * circumference;
 
-  // Determine color scheme based on fit_score
+  // Determine color scheme based on fit_score for light dashboard
   const getColorScheme = () => {
     if (normalizedScore >= 75) {
       return {
-        stroke: "#10b981", // emerald-500
-        text: "text-emerald-400",
-        bgBadge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-        glow: "shadow-emerald-500/20",
+        stroke: "#059669", // emerald-600
+        text: "text-emerald-700",
       };
     } else if (normalizedScore >= 50) {
       return {
-        stroke: "#f59e0b", // amber-500
-        text: "text-amber-400",
-        bgBadge: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-        glow: "shadow-amber-500/20",
+        stroke: "#d97706", // amber-600
+        text: "text-amber-700",
       };
     } else {
       return {
-        stroke: "#f43f5e", // rose-500
-        text: "text-rose-400",
-        bgBadge: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-        glow: "shadow-rose-500/20",
+        stroke: "#e11d48", // rose-600
+        text: "text-rose-700",
       };
     }
   };
@@ -63,12 +57,12 @@ export default function ScoreRing({
         className="-rotate-90 transform overflow-visible"
         aria-hidden="true"
       >
-        {/* Background track circle */}
+        {/* Background track circle (subtle light gray) */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#1e293b"
+          stroke="#f1f5f9"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
@@ -90,14 +84,14 @@ export default function ScoreRing({
       {/* Centered score text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span
-          className={`font-mono font-bold leading-none ${scheme.text} ${
+          className={`font-semibold font-mono leading-none ${scheme.text} ${
             size >= 60 ? "text-base" : "text-xs"
           }`}
         >
           {normalizedScore}
         </span>
         {showPercent && (
-          <span className="text-[9px] text-slate-400 font-mono scale-90 leading-none mt-0.5">
+          <span className="text-[9px] text-gray-400 font-mono leading-none mt-0.5">
             %
           </span>
         )}

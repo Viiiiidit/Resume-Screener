@@ -96,25 +96,27 @@ export default function ResumeUploadStep({
     if (e.target.files && e.target.files.length > 0) {
       validateAndAddFiles(e.target.files);
     }
-    // Reset file input so re-selecting same file triggers change
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   };
 
   return (
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-xl shadow-black/40 backdrop-blur-sm transition-all hover:border-slate-700/80">
+    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm transition-all hover:border-gray-300">
       {/* Step Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center space-x-2.5">
-          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold text-xs">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-gray-100 text-gray-800 font-bold text-xs border border-gray-200">
             2
           </div>
           <div>
-            <label className="text-sm font-semibold text-slate-100 flex items-center space-x-1.5 cursor-pointer">
-              <UploadCloud className="w-4 h-4 text-indigo-400" />
+            <label className="text-sm font-semibold text-gray-900 flex items-center space-x-2 cursor-pointer">
+              <UploadCloud className="w-4 h-4 text-gray-600" />
               <span>2. Upload Applicant Resumes (PDFs)</span>
             </label>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Select or drop PDF resumes to screen against requirements
+            </p>
           </div>
         </div>
 
@@ -123,9 +125,9 @@ export default function ResumeUploadStep({
             type="button"
             id="clear-all-resumes-btn"
             onClick={onClearFiles}
-            className="flex items-center space-x-1 text-[11px] text-slate-400 hover:text-rose-400 transition-colors px-2 py-0.5 rounded hover:bg-slate-800"
+            className="flex items-center space-x-1 text-xs text-gray-400 hover:text-red-600 transition-colors px-2 py-1 rounded-md hover:bg-gray-100"
           >
-            <Trash2 className="w-3 h-3" />
+            <Trash2 className="w-3.5 h-3.5" />
             <span>Remove All ({files.length})</span>
           </button>
         )}
@@ -142,34 +144,34 @@ export default function ResumeUploadStep({
         onChange={handleFileInputChange}
       />
 
-      {/* Drag & Drop Zone */}
+      {/* Drag & Drop Zone with fluid hover transition */}
       <div
         id="resume-dropzone"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
+        className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 select-none ${
           isDragging
-            ? "border-blue-400 bg-blue-500/10 scale-[1.01] shadow-lg shadow-blue-500/10"
-            : "border-slate-800 hover:border-slate-600 bg-slate-950/50 hover:bg-slate-950/80"
+            ? "border-blue-500 bg-blue-50/70 scale-[1.01] shadow-xs"
+            : "border-gray-200 hover:border-gray-400 bg-gray-50/50 hover:bg-gray-50"
         }`}
       >
-        <div className="flex flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center space-y-2.5">
           <div
             className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
               isDragging
-                ? "bg-blue-500/20 text-blue-400 animate-bounce"
-                : "bg-slate-800/80 text-slate-400 group-hover:text-slate-200"
+                ? "bg-blue-100 text-blue-600 scale-110"
+                : "bg-white border border-gray-200 text-gray-500 shadow-2xs"
             }`}
           >
             <UploadCloud className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-200">
-              <span className="text-blue-400 hover:underline">Click to browse</span> or drag & drop PDF resumes here
+            <p className="text-sm font-medium text-gray-800">
+              <span className="text-blue-600 hover:underline">Click to browse</span> or drag and drop PDF resumes here
             </p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-gray-400 mt-1">
               Supports multiple files • Standard PDF format (max 15MB each)
             </p>
           </div>
@@ -178,56 +180,56 @@ export default function ResumeUploadStep({
 
       {/* Error message banner */}
       {errorMessage && (
-        <div className="mt-3 flex items-start space-x-2 text-xs bg-rose-500/10 border border-rose-500/20 text-rose-300 p-2.5 rounded-lg animate-fadeIn">
-          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+        <div className="mt-3 flex items-start space-x-2 text-xs bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl animate-fadeIn">
+          <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
           <span>{errorMessage}</span>
         </div>
       )}
 
       {/* Uploaded File List */}
       {files.length > 0 && (
-        <div className="mt-4 space-y-2">
-          <div className="flex items-center justify-between text-xs text-slate-400 px-1">
+        <div className="mt-5 space-y-2">
+          <div className="flex items-center justify-between text-xs text-gray-500 px-1">
             <span className="font-medium flex items-center space-x-1.5">
-              <FileCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <FileCheck className="w-3.5 h-3.5 text-emerald-600" />
               <span>Queued for Screening ({files.length}):</span>
             </span>
           </div>
 
           <div
             id="uploaded-files-list"
-            className="max-h-48 overflow-y-auto space-y-1.5 pr-1"
+            className="max-h-52 overflow-y-auto space-y-1.5 pr-1"
           >
             {files.map((file, index) => (
               <div
                 key={`${file.name}-${index}`}
                 id={`resume-item-${index}`}
-                className="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/80 border border-slate-800/90 hover:border-slate-700 text-xs transition-colors group"
+                className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100/70 border border-gray-200 text-xs transition-colors group"
               >
-                <div className="flex items-center space-x-2.5 overflow-hidden pr-2">
-                  <div className="w-7 h-7 rounded bg-rose-500/10 border border-rose-500/20 flex items-center justify-center shrink-0">
-                    <span className="text-[10px] font-bold text-rose-400">PDF</span>
+                <div className="flex items-center space-x-3 overflow-hidden pr-2">
+                  <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-200/60 flex items-center justify-center shrink-0">
+                    <span className="text-[10px] font-bold text-red-600">PDF</span>
                   </div>
                   <div className="overflow-hidden">
-                    <p className="font-medium text-slate-200 truncate" title={file.name}>
+                    <p className="font-medium text-gray-900 truncate" title={file.name}>
                       {file.name}
                     </p>
-                    <p className="text-[11px] text-slate-400 font-mono">
+                    <p className="text-[11px] text-gray-400 font-mono">
                       {formatFileSize(file.size)}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-2 shrink-0">
-                  <span className="hidden sm:inline-flex items-center text-[10px] font-medium text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                    <CheckCircle className="w-2.5 h-2.5 mr-1" />
+                  <span className="hidden sm:inline-flex items-center text-[10px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <CheckCircle className="w-2.5 h-2.5 mr-1 text-emerald-600" />
                     Ready
                   </span>
                   <button
                     type="button"
                     id={`remove-resume-btn-${index}`}
                     onClick={() => onRemoveFile(index)}
-                    className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-white transition-colors cursor-pointer"
                     title={`Remove ${file.name}`}
                   >
                     <Trash2 className="w-3.5 h-3.5" />
