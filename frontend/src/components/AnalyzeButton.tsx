@@ -38,7 +38,7 @@ export default function AnalyzeButton({
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 text-white animate-spin shrink-0" />
-            <span>Processing Candidates...</span>
+            <span>Extracting and Scoring...</span>
           </>
         ) : (
           <>

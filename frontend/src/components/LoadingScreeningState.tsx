@@ -65,11 +65,11 @@ export default function LoadingScreeningState({
       </div>
 
       <div className="inline-block px-3 py-1 bg-black/60 border border-[#FF5050]/40 text-[#FF5050] text-xs font-bold uppercase tracking-widest mb-3">
-        // SCREENING IN PROGRESS: {fileCount} DOSSIERS
+        // EXTRACTING AND SCORING: {fileCount} DOSSIERS
       </div>
 
       <h3 className="font-mono text-xl sm:text-2xl font-bold uppercase tracking-tight text-white mb-2">
-        AI Evaluation Engine Running
+        Extracting and Scoring...
       </h3>
 
       <p className="font-sans text-xs sm:text-sm text-gray-300 max-w-md mx-auto mb-8 leading-relaxed">
