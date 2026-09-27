@@ -127,10 +127,13 @@ class HeuristicMockScreeningService(BaseLLMScreener):
 
     def _extract_name(self, resume_text: str, filename: str) -> str:
         lines = [line.strip() for line in resume_text.splitlines() if line.strip()]
+        stop_words = {"resume", "curriculum", "vitae", "summary", "profile", "contact", "experience", "skills"}
         for line in lines[:5]:
-            # Common resume title pattern (2-3 capitalized words, not starting with Resume or CV)
-            if re.match(r"^[A-Z][a-z]+(\s+[A-Z][a-z]+){1,2}$", line) and "resume" not in line.lower():
-                return line
+            # Match 2-3 word name in Title Case or UPPERCASE, without numbers/special chars
+            if re.match(r"^[A-Za-z]+(\s+[A-Za-z]+){1,2}$", line):
+                lower_line = line.lower()
+                if not any(sw in lower_line for sw in stop_words):
+                    return line.title()
         # Fallback to cleaned filename
         clean_name = re.sub(r"[-_]", " ", filename.replace(".pdf", "")).title()
         return clean_name or "Anonymous Applicant"
