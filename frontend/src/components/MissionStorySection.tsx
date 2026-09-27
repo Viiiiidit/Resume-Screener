@@ -16,12 +16,6 @@ export default function MissionStorySection() {
       content:
         "Founded by distributed computing researchers and enterprise data architects, VISTA.IO was born out of frustration with brittle legacy reporting pipelines. We engineered a ground-up reactive compute engine that powers real-time enterprise observability.",
     },
-    {
-      id: "experienced-leadership",
-      heading: "Experienced Leadership",
-      content:
-        "Our executive team brings decades of combined experience across hyperscale infrastructure, algorithmic machine learning, and security governance from leading technology pioneers and research institutions.",
-    },
   ];
 
   return (

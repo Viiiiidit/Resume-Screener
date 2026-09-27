@@ -14,7 +14,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Center: Links Solutions, Vision, Blog */}
+        {/* Center: Only Solutions link */}
         <nav className="hidden md:flex items-center space-x-10 font-mono text-sm tracking-wider text-white">
           <Link
             href="/solutions"
@@ -22,18 +22,6 @@ export default function Navbar() {
           >
             Solutions
           </Link>
-          <a
-            href="#mission"
-            className="hover:text-[#FF5050] transition-colors uppercase"
-          >
-            Vision
-          </a>
-          <a
-            href="#blog"
-            className="hover:text-[#FF5050] transition-colors uppercase"
-          >
-            Blog
-          </a>
         </nav>
 
         {/* Right: Red Get Started button and Log In link with user icon */}
