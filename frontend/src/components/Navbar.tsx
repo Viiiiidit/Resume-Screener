@@ -14,15 +14,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Center: Solutions link (href="#") */}
-        <nav className="hidden md:flex items-center space-x-10 font-mono text-sm tracking-wider text-white">
-          <a
-            href="#"
-            className="hover:text-[#FF5050] transition-colors uppercase"
-          >
-            Solutions
-          </a>
-        </nav>
 
         {/* Right: Red Get Started button and Log In link with user icon */}
         <div className="flex items-center space-x-6">
