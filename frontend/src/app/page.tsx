@@ -10,7 +10,6 @@ import Footer from "@/components/Footer";
 import OurServicesSection from "@/components/OurServicesSection";
 import EcosystemSection from "@/components/EcosystemSection";
 import MissionStorySection from "@/components/MissionStorySection";
-import BlogSection from "@/components/BlogSection";
 
 export default function VistaIoPage() {
   return (
@@ -43,9 +42,6 @@ export default function VistaIoPage() {
 
         {/* Mission & Story: "Our Mission", "Our Story", "Experienced Leadership" */}
         <MissionStorySection />
-
-        {/* Our Blog: bg-[#4A534B], "All Posts | Content Creation | Marketing", 3 stacked cards */}
-        <BlogSection />
       </main>
     </div>
   );

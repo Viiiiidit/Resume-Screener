@@ -15,7 +15,7 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Center: Links Solutions, Vision, Blog */}
+        {/* Center: Links Solutions and Vision */}
         <nav className="hidden md:flex items-center space-x-10 font-mono text-sm tracking-wider text-white">
           <a
             href="#services"
@@ -28,12 +28,6 @@ export default function Navbar() {
             className="hover:text-[#FF5050] transition-colors uppercase"
           >
             Vision
-          </a>
-          <a
-            href="#blog"
-            className="hover:text-[#FF5050] transition-colors uppercase"
-          >
-            Blog
           </a>
         </nav>
 
