@@ -7,9 +7,6 @@ import ServiceCards from "@/components/ServiceCards";
 import TypographySections from "@/components/TypographySections";
 import PreFooterCTA from "@/components/PreFooterCTA";
 import Footer from "@/components/Footer";
-import OurServicesSection from "@/components/OurServicesSection";
-import EcosystemSection from "@/components/EcosystemSection";
-import MissionStorySection from "@/components/MissionStorySection";
 
 export default function VistaIoPage() {
   return (
@@ -32,16 +29,6 @@ export default function VistaIoPage() {
 
         {/* 6. Footer */}
         <Footer />
-
-        {/* 7. Additional Pages/Sections to append below */}
-        {/* Our Services: "Dive Into the New Age of Accelerated Analytics" + 4 cards repeated */}
-        <OurServicesSection />
-
-        {/* Ecosystem: "We Integrate With Your Ecosystem" */}
-        <EcosystemSection />
-
-        {/* Mission & Story: "Our Mission", "Our Story" */}
-        <MissionStorySection />
       </main>
     </div>
   );
