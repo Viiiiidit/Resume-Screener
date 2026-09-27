@@ -2,7 +2,6 @@
 
 import React, { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { CandidateScreeningResult } from "@/types/candidate";
 import {
   UploadCloud,
@@ -676,9 +675,6 @@ export default function SolutionsPage() {
           </section>
         )}
       </main>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
