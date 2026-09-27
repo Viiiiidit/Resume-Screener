@@ -6,14 +6,22 @@ import JobRequirementsStep from "@/components/JobRequirementsStep";
 import ResumeUploadStep from "@/components/ResumeUploadStep";
 import AnalyzeButton from "@/components/AnalyzeButton";
 import DashboardPreview from "@/components/DashboardPreview";
-import { Sparkles, SlidersHorizontal, Layers } from "lucide-react";
+import LoadingScreeningState from "@/components/LoadingScreeningState";
+import CandidateLeaderboard from "@/components/CandidateLeaderboard";
+import { CandidateScreeningResult } from "@/types/candidate";
+import { Sparkles, SlidersHorizontal, Layers, AlertCircle, RefreshCw } from "lucide-react";
 
 export default function DashboardPage() {
-  // Local state for the two-step input component as requested
+  // Two-step input local state
   const [jobRequirements, setJobRequirements] = useState<string>("");
   const [resumes, setResumes] = useState<File[]>([]);
 
-  // Add newly uploaded files without duplicates
+  // API execution state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [candidates, setCandidates] = useState<CandidateScreeningResult[]>([]);
+
+  // Add files preventing duplicates
   const handleAddFiles = (newFiles: File[]) => {
     setResumes((prev) => [...prev, ...newFiles]);
   };
@@ -28,9 +36,73 @@ export default function DashboardPage() {
     setResumes([]);
   };
 
+  // Reset results to screen again
+  const handleReset = () => {
+    setCandidates([]);
+    setApiError(null);
+  };
+
+  // Wire up Analyze & Rank Candidates to backend API
+  const handleAnalyze = async () => {
+    if (!jobRequirements.trim() || resumes.length === 0) {
+      return;
+    }
+
+    setIsLoading(true);
+    setApiError(null);
+
+    const backendUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+    try {
+      const formData = new FormData();
+      formData.append("job_requirements", jobRequirements.trim());
+
+      // Append each resume file under the 'resumes' multipart key
+      resumes.forEach((file) => {
+        formData.append("resumes", file, file.name);
+      });
+
+      const response = await fetch(`${backendUrl}/api/rank-resumes`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        let errorMessage = `Server error (${response.status})`;
+        try {
+          const errorData = await response.json();
+          if (errorData.detail) {
+            errorMessage =
+              typeof errorData.detail === "string"
+                ? errorData.detail
+                : JSON.stringify(errorData.detail);
+          }
+        } catch {
+          const text = await response.text();
+          if (text) errorMessage = text;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const data: CandidateScreeningResult[] = await response.json();
+      setCandidates(data);
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Failed to connect to ranking API.";
+      setApiError(
+        message.includes("Failed to fetch") || message.includes("NetworkError")
+          ? "Could not connect to FastAPI backend at http://localhost:8000. Please ensure the backend server is running."
+          : message
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#090d16] text-slate-100">
-      {/* Top Navigation */}
+      {/* Top Navigation Bar */}
       <Header />
 
       {/* Main Dashboard Content */}
@@ -44,10 +116,10 @@ export default function DashboardPage() {
                 <span>AI Talent Acquisition Suite</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-                Candidate Screening & Ranking Dashboard
+                Candidate Screening &amp; Ranking Dashboard
               </h1>
               <p className="text-sm text-slate-400 mt-1">
-                Evaluate applicant resumes with an LLM senior HR screener and rank candidates by fit score.
+                Evaluate applicant resumes with a Senior HR Screener and rank candidates by fit score.
               </p>
             </div>
 
@@ -92,16 +164,54 @@ export default function DashboardPage() {
               <AnalyzeButton
                 jobRequirements={jobRequirements}
                 resumeCount={resumes.length}
+                isLoading={isLoading}
+                onAnalyze={handleAnalyze}
               />
             </div>
           </section>
 
-          {/* Right Column: Dashboard Preview & Results Board (7 cols) */}
+          {/* Right Column: Dynamic Stage - Leaderboard, Loading, or Preview (7 cols) */}
           <section className="lg:col-span-7" aria-label="Results & Analytics">
-            <DashboardPreview
-              jobRequirements={jobRequirements}
-              files={resumes}
-            />
+            {/* Error Banner */}
+            {apiError && (
+              <div
+                id="api-error-banner"
+                className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start space-x-3 shadow-lg shadow-rose-500/5 animate-fadeIn"
+              >
+                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-semibold text-rose-200">
+                    Screening Request Failed
+                  </p>
+                  <p className="mt-1 leading-relaxed text-rose-300/90">
+                    {apiError}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleAnalyze}
+                    className="mt-2.5 inline-flex items-center space-x-1.5 px-3 py-1 rounded-md bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-[11px] font-semibold text-rose-200 transition-colors cursor-pointer"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    <span>Retry Request</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Render Candidate Leaderboard when results are ready */}
+            {isLoading ? (
+              <LoadingScreeningState fileCount={resumes.length} />
+            ) : candidates.length > 0 ? (
+              <CandidateLeaderboard
+                candidates={candidates}
+                onReset={handleReset}
+              />
+            ) : (
+              <DashboardPreview
+                jobRequirements={jobRequirements}
+                files={resumes}
+              />
+            )}
           </section>
         </div>
       </main>
