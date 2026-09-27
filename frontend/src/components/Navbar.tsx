@@ -14,24 +14,24 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Center: Only Solutions link */}
+        {/* Center: Solutions link (href="#") */}
         <nav className="hidden md:flex items-center space-x-10 font-mono text-sm tracking-wider text-white">
-          <Link
-            href="/solutions"
+          <a
+            href="#"
             className="hover:text-[#FF5050] transition-colors uppercase"
           >
             Solutions
-          </Link>
+          </a>
         </nav>
 
         {/* Right: Red Get Started button and Log In link with user icon */}
         <div className="flex items-center space-x-6">
-          <a
-            href="#cta"
+          <Link
+            href="/get-started"
             className="rounded-none bg-[#FF5050] hover:bg-[#e64040] text-white px-5 py-2.5 font-mono text-xs uppercase font-bold tracking-wider transition-colors inline-block text-center"
           >
             Get Started
-          </a>
+          </Link>
 
           <a
             href="#"

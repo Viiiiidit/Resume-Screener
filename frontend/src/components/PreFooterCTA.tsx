@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 export default function PreFooterCTA() {
   return (
@@ -21,12 +22,12 @@ export default function PreFooterCTA() {
             </p>
 
             <div>
-              <a
-                href="#get-started"
+              <Link
+                href="/get-started"
                 className="inline-block rounded-none bg-[#FF5050] hover:bg-[#e64040] text-white px-8 py-3.5 font-mono text-xs uppercase font-bold tracking-widest transition-colors"
               >
                 Get Started
-              </a>
+              </Link>
             </div>
           </div>
         </div>

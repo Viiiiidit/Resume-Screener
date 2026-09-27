@@ -36,7 +36,7 @@ const PRESET_DESCRIPTIONS = [
   },
 ];
 
-export default function SolutionsPage() {
+export default function GetStartedPage() {
   // 1. Local State Management
   const [jobDescription, setJobDescription] = useState<string>("");
   const [resumes, setResumes] = useState<File[]>([]);
