@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Sparkles, BrainCircuit, FileSearch, Award, Loader2 } from "lucide-react";
+import { BrainCircuit, FileSearch, Award, Loader2, Zap } from "lucide-react";
 
 interface LoadingScreeningStateProps {
   fileCount: number;
@@ -10,23 +10,23 @@ interface LoadingScreeningStateProps {
 const PROCESSING_STEPS = [
   {
     icon: FileSearch,
-    title: "Extracting Text with PyMuPDF",
-    description: "Parsing multi-page candidate resumes into clean readable tokens...",
+    title: "PYMUPDF PARSING STAGE",
+    description: "Extracting multi-page token sequences from applicant PDF dossiers...",
   },
   {
     icon: BrainCircuit,
-    title: "Consulting Senior HR Screener AI",
-    description: "Analyzing candidate experience and evaluating against role requirements...",
+    title: "NEURAL VECTOR SCORING",
+    description: "Synthesizing qualifications against job requirements matrix...",
   },
   {
-    icon: Sparkles,
-    title: "Identifying Strengths & Skill Gaps",
-    description: "Synthesizing key qualifications and missing prerequisites...",
+    icon: Zap,
+    title: "DISCREPANCY & ADVANTAGE ANALYSIS",
+    description: "Detecting requisite shortfalls and qualification advantages...",
   },
   {
     icon: Award,
-    title: "Computing Fit Scores & Ranking",
-    description: "Ordering candidate pool by descending match relevance...",
+    title: "LEADER MATRIX COMPUTATION",
+    description: "Sorting candidate pool descending by neural match score...",
   },
 ];
 
@@ -54,32 +54,32 @@ export default function LoadingScreeningState({
   return (
     <div
       id="ai-processing-state"
-      className="bg-white border border-gray-200 rounded-2xl p-8 sm:p-10 shadow-sm text-center animate-fadeIn"
+      className="bg-[#0e1610] border border-[#233828] p-8 sm:p-10 rounded-none shadow-2xl text-center font-mono"
     >
-      {/* Animated Center Orb with light styling */}
+      {/* Animated Center Orb with red accent */}
       <div className="relative mx-auto w-16 h-16 mb-6 flex items-center justify-center">
-        <div className="absolute inset-0 rounded-full bg-blue-100 animate-ping opacity-60" />
-        <div className="relative w-14 h-14 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center shadow-xs">
-          <Loader2 className="w-6 h-6 text-gray-900 animate-spin" />
+        <div className="absolute inset-0 bg-[#FF3333]/20 animate-ping" />
+        <div className="relative w-14 h-14 bg-[#142117] border border-[#FF3333] flex items-center justify-center shadow-[0_0_20px_rgba(255,51,51,0.4)]">
+          <Loader2 className="w-6 h-6 text-[#FF3333] animate-spin" />
         </div>
       </div>
 
       {/* Main Title */}
-      <h3 className="text-lg font-bold text-gray-900 tracking-tight">
-        AI Talent Screener in Progress
+      <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-widest">
+        // NEURAL CANDIDATE EVALUATION IN PROGRESS
       </h3>
-      <p className="text-xs sm:text-sm text-gray-500 mt-1 max-w-md mx-auto">
-        Evaluating {fileCount} resume{fileCount === 1 ? "" : "s"} against your job description criteria.
+      <p className="text-xs text-neutral-400 mt-1 uppercase tracking-wider max-w-md mx-auto">
+        PROCESSING {fileCount} DOSSIER{fileCount === 1 ? "" : "S"} AGAINST REQUIREMENTS MATRIX.
       </p>
 
       {/* Timer badge */}
-      <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gray-50 border border-gray-200 text-xs text-gray-600 font-mono mt-3">
-        <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-        <span>Processing Time: {secondsElapsed}s</span>
+      <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#142117] border border-[#27402d] text-xs text-[#FF3333] mt-4">
+        <span className="w-1.5 h-1.5 bg-[#FF3333] animate-pulse" />
+        <span>ELAPSED_CYCLES: {secondsElapsed}S</span>
       </div>
 
       {/* Processing Pipeline Steps */}
-      <div className="mt-8 space-y-2.5 max-w-md mx-auto text-left">
+      <div className="mt-8 space-y-3 max-w-md mx-auto text-left">
         {PROCESSING_STEPS.map((step, idx) => {
           const StepIcon = step.icon;
           const isDone = idx < activeStep;
@@ -88,21 +88,21 @@ export default function LoadingScreeningState({
           return (
             <div
               key={step.title}
-              className={`flex items-start space-x-3 p-3.5 rounded-xl border transition-all duration-300 ${
+              className={`flex items-start space-x-3 p-3.5 border transition-all duration-300 rounded-none ${
                 isCurrent
-                  ? "bg-blue-50/60 border-blue-200 shadow-2xs"
+                  ? "bg-[#182a1d] border-[#FF3333] shadow-[0_0_15px_rgba(255,51,51,0.15)]"
                   : isDone
-                  ? "bg-gray-50/60 border-gray-200 opacity-80"
-                  : "bg-gray-50/20 border-gray-100 opacity-40"
+                  ? "bg-[#101b13] border-[#203625] opacity-80"
+                  : "bg-[#090f0b] border-[#18291c] opacity-35"
               }`}
             >
               <div
-                className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold transition-colors ${
+                className={`w-7 h-7 flex items-center justify-center shrink-0 text-xs font-bold transition-colors rounded-none ${
                   isCurrent
-                    ? "bg-gray-900 text-white"
+                    ? "bg-[#FF3333] text-white"
                     : isDone
-                    ? "bg-emerald-100 text-emerald-700"
-                    : "bg-gray-200 text-gray-400"
+                    ? "bg-emerald-950 text-emerald-400 border border-emerald-500/40"
+                    : "bg-[#121c15] text-neutral-600"
                 }`}
               >
                 {isCurrent ? (
@@ -113,17 +113,17 @@ export default function LoadingScreeningState({
               </div>
               <div className="flex-1 min-w-0">
                 <p
-                  className={`text-xs font-semibold ${
+                  className={`text-xs font-bold uppercase tracking-wider ${
                     isCurrent
-                      ? "text-gray-900"
+                      ? "text-white"
                       : isDone
-                      ? "text-emerald-800"
-                      : "text-gray-500"
+                      ? "text-emerald-300"
+                      : "text-neutral-500"
                   }`}
                 >
                   {step.title}
                 </p>
-                <p className="text-xs text-gray-500 leading-tight mt-0.5 truncate">
+                <p className="text-[11px] text-neutral-400 mt-0.5 leading-snug">
                   {step.description}
                 </p>
               </div>

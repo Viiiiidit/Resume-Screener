@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles, ArrowRight, Loader2, Info } from "lucide-react";
+import { ArrowRight, Loader2, Info, Zap } from "lucide-react";
 
 interface AnalyzeButtonProps {
   jobRequirements: string;
@@ -27,25 +27,25 @@ export default function AnalyzeButton({
         id="analyze-rank-btn"
         disabled={!isReady}
         onClick={onAnalyze}
-        className={`w-full py-3.5 px-6 rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center space-x-2.5 transition-all duration-200 cursor-pointer ${
+        className={`w-full py-4 px-6 rounded-none font-mono uppercase tracking-widest font-bold text-xs sm:text-sm flex items-center justify-center space-x-3 transition-all duration-200 cursor-pointer ${
           isLoading
-            ? "bg-gray-900 text-white cursor-wait opacity-90 shadow-sm"
+            ? "bg-[#cc2626] text-white cursor-wait opacity-90"
             : isReady
-            ? "bg-gray-950 hover:bg-black text-white shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99]"
-            : "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
+            ? "bg-[#FF3333] hover:bg-[#E02929] text-white shadow-[0_0_25px_rgba(255,51,51,0.35)] hover:shadow-[0_0_35px_rgba(255,51,51,0.6)] hover:scale-[1.005] active:scale-[0.995]"
+            : "bg-[#181818] text-neutral-600 border border-neutral-800 cursor-not-allowed"
         }`}
       >
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 text-white animate-spin shrink-0" />
-            <span className="font-medium">Screening &amp; Ranking Candidates...</span>
+            <span className="tracking-widest">EXECUTING NEURAL RANKING PROTOCOL...</span>
           </>
         ) : (
           <>
-            <Sparkles className={`w-4 h-4 ${isReady ? "text-gray-300" : "text-gray-400"}`} />
-            <span>Analyze &amp; Rank Candidates</span>
+            <Zap className={`w-4 h-4 ${isReady ? "text-white fill-white" : "text-neutral-600"}`} />
+            <span>ANALYZE &amp; RANK CANDIDATES</span>
             <ArrowRight
-              className={`w-4 h-4 text-gray-400 transition-transform ${
+              className={`w-4 h-4 transition-transform ${
                 isReady ? "group-hover:translate-x-1" : ""
               }`}
             />
@@ -55,14 +55,14 @@ export default function AnalyzeButton({
 
       {/* Helper guidance text */}
       {!isReady && !isLoading && (
-        <div className="flex items-center justify-center space-x-1.5 text-xs text-gray-500">
-          <Info className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+        <div className="flex items-center justify-center space-x-1.5 text-[11px] font-mono uppercase tracking-wider text-neutral-500">
+          <Info className="w-3.5 h-3.5 text-neutral-600 shrink-0" />
           <span>
             {!hasRequirements && !hasResumes
-              ? "Complete steps 1 & 2 above to activate candidate ranking"
+              ? "[ PROTOCOL PENDING: PROVIDE JD AND DOSSIERS ]"
               : !hasRequirements
-              ? "Enter job requirements in step 1 to proceed"
-              : "Upload at least one PDF resume in step 2 to proceed"}
+              ? "[ PROTOCOL PENDING: ENTER JOB CRITERIA ]"
+              : "[ PROTOCOL PENDING: UPLOAD AT LEAST ONE DOSSIER ]"}
           </span>
         </div>
       )}

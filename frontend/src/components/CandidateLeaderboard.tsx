@@ -2,19 +2,16 @@
 
 import React, { useState } from "react";
 import { CandidateScreeningResult } from "@/types/candidate";
-import ScoreRing from "@/components/ScoreRing";
 import {
-  Trophy,
-  Medal,
-  Award,
   ChevronDown,
   CheckCircle2,
   AlertTriangle,
   FileText,
   Download,
   RotateCcw,
-  Sparkles,
+  Terminal,
   Search,
+  Zap,
 } from "lucide-react";
 
 interface CandidateLeaderboardProps {
@@ -74,64 +71,25 @@ export default function CandidateLeaderboard({
     );
   });
 
-  const getRankBadge = (rank: number) => {
-    if (rank === 1) {
-      return (
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 border border-amber-200 shadow-2xs">
-          <Trophy className="w-4 h-4" />
-        </div>
-      );
-    }
-    if (rank === 2) {
-      return (
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 text-slate-600 border border-slate-200">
-          <Medal className="w-4 h-4" />
-        </div>
-      );
-    }
-    if (rank === 3) {
-      return (
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-100/60 text-amber-700 border border-amber-200">
-          <Award className="w-4 h-4" />
-        </div>
-      );
-    }
-    return (
-      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-50 text-gray-600 border border-gray-200 font-mono text-xs font-semibold">
-        #{rank}
-      </div>
-    );
-  };
-
-  const getVerdictStyle = (fitScore: number) => {
-    if (fitScore >= 75) {
-      return "bg-emerald-50 text-emerald-700 border-emerald-200";
-    }
-    if (fitScore >= 50) {
-      return "bg-amber-50 text-amber-700 border-amber-200";
-    }
-    return "bg-rose-50 text-rose-700 border-rose-200";
-  };
-
   return (
     <div
       id="candidate-leaderboard"
-      className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6"
+      className="bg-[#0e1610] border border-[#233828] p-6 sm:p-8 rounded-none shadow-2xl space-y-6"
     >
       {/* Leaderboard Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-[#233828] gap-4">
         <div>
           <div className="flex items-center space-x-3">
-            <h2 className="text-lg font-bold text-gray-900 tracking-tight flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-gray-600" />
-              <span>Candidate Leaderboard</span>
+            <div className="w-2.5 h-2.5 bg-[#FF3333] rounded-none" />
+            <h2 className="font-mono text-sm sm:text-base font-bold text-white uppercase tracking-widest flex items-center space-x-2">
+              <span>// 03. RANKED CANDIDATE MATRIX</span>
             </h2>
-            <span className="px-2.5 py-0.5 text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200 rounded-full">
-              {candidates.length} Evaluated
+            <span className="px-2 py-0.5 font-mono text-[10px] uppercase font-bold bg-[#FF3333]/15 text-[#FF3333] border border-[#FF3333]/40">
+              {candidates.length} PROCESSED
             </span>
           </div>
-          <p className="text-xs text-gray-500 mt-1">
-            Ranked descending by AI fit score. Click any candidate row to review strengths and gaps.
+          <p className="font-mono text-xs text-neutral-400 mt-1 uppercase tracking-wider">
+            Autonomous multi-vector ranking • Click row to inspect neural breakdown
           </p>
         </div>
 
@@ -141,63 +99,63 @@ export default function CandidateLeaderboard({
             type="button"
             id="export-results-btn"
             onClick={exportResultsJSON}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-200 text-xs font-medium text-gray-700 transition-colors shadow-2xs cursor-pointer"
+            className="flex items-center space-x-1.5 px-3 py-2 rounded-none bg-[#142117] hover:bg-[#1b2e20] border border-[#27402d] hover:border-[#FF3333]/50 font-mono text-xs uppercase font-semibold text-neutral-200 transition-colors cursor-pointer"
             title="Export candidate ranking data to JSON"
           >
-            <Download className="w-3.5 h-3.5 text-gray-500" />
-            <span>Export JSON</span>
+            <Download className="w-3.5 h-3.5 text-[#FF3333]" />
+            <span>EXPORT JSON</span>
           </button>
 
           <button
             type="button"
             id="reset-screening-btn"
             onClick={onReset}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-200 text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors shadow-2xs cursor-pointer"
+            className="flex items-center space-x-1.5 px-3 py-2 rounded-none bg-[#142117] hover:bg-[#1b2e20] border border-[#27402d] hover:border-[#FF3333]/50 font-mono text-xs uppercase font-semibold text-neutral-300 hover:text-white transition-colors cursor-pointer"
             title="Start new screening evaluation"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-gray-500" />
-            <span>New Screen</span>
+            <RotateCcw className="w-3.5 h-3.5 text-neutral-400" />
+            <span>RESET</span>
           </button>
         </div>
       </div>
 
       {/* Filter and Accordion controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 font-mono text-xs">
         {/* Search */}
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-gray-400 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-neutral-500 pointer-events-none" />
           <input
             type="text"
             id="candidate-search-input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search candidates by name, strength, or verdict..."
-            className="w-full bg-gray-50/70 hover:bg-gray-50 focus:bg-white border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
+            placeholder="FILTER DOSSIERS BY CANDIDATE NAME, STRENGTHS, KEYWORDS..."
+            className="w-full bg-[#080d09] border border-[#233828] focus:border-[#FF3333] focus:ring-1 focus:ring-[#FF3333] pl-9 pr-3 py-2 text-xs text-white placeholder-neutral-600 uppercase tracking-wider focus:outline-none transition-all rounded-none"
           />
         </div>
 
         {/* Expand / Collapse All */}
-        <div className="flex items-center space-x-2 shrink-0 justify-end">
+        <div className="flex items-center space-x-2 shrink-0 justify-end font-mono text-[11px] uppercase tracking-wider">
           <button
             type="button"
             onClick={expandAll}
-            className="text-xs text-gray-500 hover:text-gray-800 font-medium px-2 py-1 rounded hover:bg-gray-100 transition-colors"
+            className="text-neutral-400 hover:text-[#FF3333] px-2 py-1 transition-colors"
           >
-            Expand All
+            EXPAND ALL
           </button>
-          <span className="text-gray-300">•</span>
+          <span className="text-neutral-600">//</span>
           <button
             type="button"
             onClick={collapseAll}
-            className="text-xs text-gray-500 hover:text-gray-800 font-medium px-2 py-1 rounded hover:bg-gray-100 transition-colors"
+            className="text-neutral-400 hover:text-[#FF3333] px-2 py-1 transition-colors"
           >
-            Collapse All
+            COLLAPSE ALL
           </button>
         </div>
       </div>
 
       {/* Candidate List (Rank 1 to N) */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {filteredCandidates.map((candidate, index) => {
           const rank = index + 1;
           const isExpanded = expandedIndices.has(index);
@@ -206,10 +164,10 @@ export default function CandidateLeaderboard({
             <div
               key={`${candidate.candidate_name}-${index}`}
               id={`candidate-card-${rank}`}
-              className={`rounded-xl border transition-all duration-200 overflow-hidden ${
+              className={`border transition-all duration-200 rounded-none overflow-hidden ${
                 isExpanded
-                  ? "bg-white border-gray-300 shadow-sm ring-1 ring-black/5"
-                  : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-2xs"
+                  ? "bg-[#111a13] border-[#FF3333] shadow-[0_0_20px_rgba(255,51,51,0.15)]"
+                  : "bg-[#0b120e] border-[#233828] hover:border-[#2f4b36]"
               }`}
             >
               {/* Clickable Card Header / Row */}
@@ -224,46 +182,57 @@ export default function CandidateLeaderboard({
                     toggleExpand(index);
                   }
                 }}
-                className="p-4 sm:p-5 flex items-center justify-between cursor-pointer select-none gap-4"
+                className="p-5 sm:p-6 cursor-pointer select-none"
               >
-                {/* Left: Rank Badge & Candidate Identity */}
-                <div className="flex items-center space-x-3.5 min-w-0">
-                  {getRankBadge(rank)}
-
+                <div className="flex items-start justify-between gap-4">
+                  {/* Left: Rank Badge & Candidate Identity with Huge Coral/Red Score */}
                   <div className="min-w-0">
-                    <div className="flex items-center space-x-2.5">
-                      <h3 className="text-sm font-semibold text-gray-900 truncate">
-                        {candidate.candidate_name || `Applicant #${rank}`}
-                      </h3>
+                    <div className="flex items-center space-x-2 mb-2 font-mono text-[11px] uppercase tracking-widest text-neutral-400">
+                      <span className="text-[#FF3333] font-bold">
+                        #{rank.toString().padStart(2, "0")}
+                      </span>
+                      <span>// CANDIDATE PROFILE</span>
                       {rank === 1 && (
-                        <span className="hidden sm:inline-flex text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
-                          Top Match
+                        <span className="px-2 py-0.5 text-[9px] font-bold uppercase bg-[#FF3333] text-white tracking-widest">
+                          TOP MATCH
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center space-x-2 mt-1">
-                      <span
-                        className={`text-[11px] font-medium px-2.5 py-0.5 rounded-full border truncate max-w-[260px] sm:max-w-md ${getVerdictStyle(
-                          candidate.fit_score
-                        )}`}
-                      >
+                    {/* VISTA.IO STATISTIC PRESENTATION:
+                        Large, bold, coral/red typography for the score,
+                        with candidate's name in crisp white text below their red score */}
+                    <div className="flex flex-col">
+                      <div className="flex items-baseline space-x-2">
+                        <span className="text-4xl sm:text-5xl font-mono font-black text-[#FF3333] tracking-tighter leading-none">
+                          {Math.round(candidate.fit_score)}
+                        </span>
+                        <span className="font-mono text-base text-[#FF3333]/70 font-bold">
+                          /100
+                        </span>
+                      </div>
+
+                      <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider mt-1.5 truncate">
+                        {candidate.candidate_name || `Applicant Dossier #${rank}`}
+                      </h3>
+                    </div>
+
+                    <div className="mt-3">
+                      <span className="inline-block font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 bg-[#19281e] border border-[#284231] text-emerald-300">
                         {candidate.verdict}
                       </span>
                     </div>
                   </div>
-                </div>
 
-                {/* Right: Circular Progress Ring & Smooth Rotate Chevron */}
-                <div className="flex items-center space-x-4 shrink-0">
-                  <ScoreRing score={candidate.fit_score} size={48} strokeWidth={4} />
-
-                  <div
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600 transition-transform duration-300 ${
-                      isExpanded ? "rotate-180 text-gray-700" : ""
-                    }`}
-                  >
-                    <ChevronDown className="w-4 h-4" />
+                  {/* Right: Expand Chevron with rotation */}
+                  <div className="shrink-0 pt-1">
+                    <div
+                      className={`w-8 h-8 rounded-none border border-[#233828] bg-[#142117] flex items-center justify-center text-neutral-300 transition-transform duration-300 ${
+                        isExpanded ? "rotate-180 border-[#FF3333] text-[#FF3333]" : ""
+                      }`}
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -271,22 +240,24 @@ export default function CandidateLeaderboard({
               {/* Fluid Sliding Transition Drawer for Pros, Cons & Verdict */}
               <div
                 className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
-                  isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+                  isExpanded
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0 pointer-events-none"
                 }`}
               >
                 <div className="overflow-hidden">
                   <div
                     id={`candidate-details-${rank}`}
-                    className="px-5 pb-5 pt-3 border-t border-gray-100 bg-gray-50/50 space-y-4 text-xs"
+                    className="p-5 sm:p-6 border-t border-[#233828] bg-[#090f0b] space-y-4 font-mono text-xs"
                   >
                     {/* Verdict Callout */}
-                    <div className="p-3.5 rounded-xl bg-white border border-gray-200 flex items-start space-x-2.5 shadow-2xs">
-                      <FileText className="w-4 h-4 text-gray-600 shrink-0 mt-0.5" />
+                    <div className="p-3.5 bg-[#121c15] border border-[#243929] flex items-start space-x-3">
+                      <Terminal className="w-4 h-4 text-[#FF3333] shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-semibold text-gray-900">
-                          Senior HR Screener Assessment:
+                        <span className="font-bold text-white uppercase tracking-widest">
+                          HR EVALUATION SUMMARY:
                         </span>
-                        <p className="text-gray-600 mt-0.5 leading-relaxed">
+                        <p className="text-neutral-300 mt-1 leading-relaxed">
                           {candidate.verdict}
                         </p>
                       </div>
@@ -294,34 +265,34 @@ export default function CandidateLeaderboard({
 
                     {/* Key Strengths (Pros) */}
                     <div>
-                      <div className="flex items-center space-x-1.5 font-semibold text-emerald-800 mb-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Key Strengths &amp; Matching Criteria (Pros):</span>
+                      <div className="flex items-center space-x-2 font-bold text-emerald-400 uppercase tracking-widest mb-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>QUALIFICATION ADVANTAGES (PROS):</span>
                       </div>
                       {candidate.key_strengths && candidate.key_strengths.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {candidate.key_strengths.map((strength, sIdx) => (
                             <div
                               key={sIdx}
-                              className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200/80 text-emerald-900 text-xs leading-snug flex items-start space-x-2"
+                              className="p-2.5 bg-[#122116] border border-[#203c28] text-emerald-100 text-[11px] leading-snug flex items-start space-x-2"
                             >
-                              <span className="text-emerald-600 font-bold shrink-0">•</span>
+                              <span className="text-emerald-400 font-bold shrink-0">//</span>
                               <span>{strength}</span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-400 italic text-xs">
-                          No specific matching strengths reported.
+                        <p className="text-neutral-500 italic text-[11px]">
+                          NO SPECIFIC ADVANTAGES RECORDED.
                         </p>
                       )}
                     </div>
 
                     {/* Missing Requirements (Cons) */}
                     <div>
-                      <div className="flex items-center space-x-1.5 font-semibold text-amber-800 mb-2">
-                        <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-                        <span>Missing Requirements &amp; Skill Gaps (Cons):</span>
+                      <div className="flex items-center space-x-2 font-bold text-[#FF6B6B] uppercase tracking-widest mb-2">
+                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                        <span>REQUISITE SHORTFALLS (CONS):</span>
                       </div>
                       {candidate.missing_requirements &&
                       candidate.missing_requirements.length > 0 ? (
@@ -329,16 +300,16 @@ export default function CandidateLeaderboard({
                           {candidate.missing_requirements.map((missing, mIdx) => (
                             <div
                               key={mIdx}
-                              className="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/80 text-amber-900 text-xs leading-snug flex items-start space-x-2"
+                              className="p-2.5 bg-[#201212] border border-[#3f2121] text-[#FF9B9B] text-[11px] leading-snug flex items-start space-x-2"
                             >
-                              <span className="text-amber-600 font-bold shrink-0">•</span>
+                              <span className="text-[#FF3333] font-bold shrink-0">//</span>
                               <span>{missing}</span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs">
-                          ✓ All mandatory job requirements appear fulfilled.
+                        <div className="p-2.5 bg-[#122116] border border-[#203c28] text-emerald-300 text-[11px]">
+                          ✓ FULL CRITERIA SATISFACTION VERIFIED.
                         </div>
                       )}
                     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Briefcase, Eraser, Sparkles, CheckCircle2 } from "lucide-react";
+import { Eraser, Sparkles, Terminal, Check } from "lucide-react";
 
 interface JobRequirementsStepProps {
   value: string;
@@ -34,25 +34,14 @@ export default function JobRequirementsStep({
   const charCount = value.length;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm transition-all hover:border-gray-300">
-      {/* Step Header */}
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-[#131d16] border border-[#233828] p-6 sm:p-7 shadow-lg relative rounded-none transition-all">
+      {/* Top accent badge */}
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#233828]">
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-gray-100 text-gray-800 font-bold text-xs border border-gray-200">
-            1
-          </div>
-          <div>
-            <label
-              htmlFor="job-requirements-input"
-              className="text-sm font-semibold text-gray-900 flex items-center space-x-2 cursor-pointer"
-            >
-              <Briefcase className="w-4 h-4 text-gray-600" />
-              <span>1. Enter Job Requirements</span>
-            </label>
-            <p className="text-xs text-gray-500 mt-0.5">
-              Specify required skills, experience level, and responsibilities
-            </p>
-          </div>
+          <div className="w-2.5 h-2.5 bg-[#FF3333] rounded-none" />
+          <span className="font-mono text-xs uppercase font-bold text-white tracking-widest">
+            // 01. TARGET REQUIREMENTS VECTOR
+          </span>
         </div>
 
         {value && (
@@ -60,20 +49,19 @@ export default function JobRequirementsStep({
             type="button"
             id="clear-job-requirements-btn"
             onClick={() => onChange("")}
-            className="flex items-center space-x-1 text-xs text-gray-400 hover:text-red-600 transition-colors px-2 py-1 rounded-md hover:bg-gray-100"
-            title="Clear text"
+            className="flex items-center space-x-1 font-mono text-[11px] uppercase tracking-wider text-neutral-400 hover:text-[#FF3333] transition-colors"
           >
-            <Eraser className="w-3.5 h-3.5" />
+            <Eraser className="w-3 h-3" />
             <span>Clear</span>
           </button>
         )}
       </div>
 
-      {/* Quick Templates Presets */}
+      {/* Quick Presets */}
       <div className="mb-4">
-        <div className="flex items-center space-x-1.5 mb-2 text-xs font-medium text-gray-500">
-          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Quick presets:</span>
+        <div className="flex items-center space-x-1.5 mb-2 font-mono text-[11px] uppercase tracking-wider text-emerald-300/80">
+          <Terminal className="w-3 h-3 text-[#FF3333]" />
+          <span>Preset Profiles:</span>
         </div>
         <div className="flex flex-wrap gap-2">
           {PRESET_TEMPLATES.map((preset) => (
@@ -82,7 +70,7 @@ export default function JobRequirementsStep({
               type="button"
               id={`preset-${preset.title.toLowerCase().replace(/\s+/g, "-")}`}
               onClick={() => onChange(preset.content)}
-              className="text-xs px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all font-medium cursor-pointer shadow-2xs hover:shadow-xs active:scale-[0.98]"
+              className="font-mono text-xs px-3 py-1.5 rounded-none bg-[#19291e] hover:bg-[#233a2a] hover:border-[#FF3333]/50 border border-[#294230] text-emerald-100 uppercase tracking-wider transition-all cursor-pointer"
             >
               {preset.title}
             </button>
@@ -90,31 +78,31 @@ export default function JobRequirementsStep({
         </div>
       </div>
 
-      {/* Large Textarea */}
+      {/* Textarea */}
       <div className="relative">
         <textarea
           id="job-requirements-input"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={6}
-          placeholder="Paste complete job description, technical requirements, must-have skills, and qualifications..."
-          className="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/10 rounded-xl p-4 text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition-all resize-y min-h-[140px] leading-relaxed"
+          placeholder="ENTER OR PASTE TARGET JOB PROFILE, REQUIRED TECH MATRIX, MUST-HAVE DOMAIN SKILLS, AND QUALIFICATIONS..."
+          className="w-full bg-[#0b120d] border border-[#233828] focus:border-[#FF3333] focus:ring-1 focus:ring-[#FF3333] p-4 font-mono text-xs text-white placeholder-neutral-600 focus:outline-none transition-all resize-y min-h-[140px] leading-relaxed rounded-none"
         />
 
         {value.trim().length > 30 && (
-          <div className="absolute top-3 right-3 text-emerald-700 flex items-center space-x-1 text-xs bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-            <span className="text-[10px] font-medium">Ready</span>
+          <div className="absolute top-3 right-3 text-emerald-400 font-mono text-[10px] tracking-widest uppercase flex items-center space-x-1 bg-[#131d16] px-2 py-0.5 border border-emerald-500/40">
+            <Check className="w-3 h-3 text-emerald-400" />
+            <span>SYNTAX OK</span>
           </div>
         )}
       </div>
 
-      {/* Footer Info */}
-      <div className="flex items-center justify-between mt-3 px-1 text-xs text-gray-400 font-mono">
+      {/* Footer Meta */}
+      <div className="flex items-center justify-between mt-3 text-[11px] font-mono text-neutral-400 uppercase tracking-wider">
         <span>
-          {charCount} character{charCount === 1 ? "" : "s"} • {wordCount} word{wordCount === 1 ? "" : "s"}
+          {charCount} CHARS // {wordCount} TOKENS
         </span>
-        <span className="text-gray-400 font-sans text-[11px]">Recommended: 50+ words</span>
+        <span className="text-[#FF3333]">CRITERIA_ACTIVE</span>
       </div>
     </div>
   );

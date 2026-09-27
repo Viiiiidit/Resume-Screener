@@ -8,8 +8,9 @@ import AnalyzeButton from "@/components/AnalyzeButton";
 import DashboardPreview from "@/components/DashboardPreview";
 import LoadingScreeningState from "@/components/LoadingScreeningState";
 import CandidateLeaderboard from "@/components/CandidateLeaderboard";
+import Footer from "@/components/Footer";
 import { CandidateScreeningResult } from "@/types/candidate";
-import { Sparkles, SlidersHorizontal, Layers, AlertCircle, RefreshCw } from "lucide-react";
+import { AlertCircle, RefreshCw, Terminal, SlidersHorizontal } from "lucide-react";
 
 export default function DashboardPage() {
   // Two-step input local state
@@ -58,7 +59,6 @@ export default function DashboardPage() {
       const formData = new FormData();
       formData.append("job_requirements", jobRequirements.trim());
 
-      // Append each resume file under the 'resumes' multipart key
       resumes.forEach((file) => {
         formData.append("resumes", file, file.name);
       });
@@ -69,7 +69,7 @@ export default function DashboardPage() {
       });
 
       if (!response.ok) {
-        let errorMessage = `Server error (${response.status})`;
+        let errorMessage = `SERVER PROTOCOL ERROR (${response.status})`;
         try {
           const errorData = await response.json();
           if (errorData.detail) {
@@ -89,10 +89,10 @@ export default function DashboardPage() {
       setCandidates(data);
     } catch (err: unknown) {
       const message =
-        err instanceof Error ? err.message : "Failed to connect to ranking API.";
+        err instanceof Error ? err.message : "FAILED TO CONNECT TO RANKING SERVICE.";
       setApiError(
         message.includes("Failed to fetch") || message.includes("NetworkError")
-          ? "Could not connect to FastAPI backend at http://localhost:8000. Please ensure the backend server is running."
+          ? "COULD NOT CONNECT TO FASTAPI SERVICE ON PORT 8000. VERIFY RUNTIME ENGINE."
           : message
       );
     } finally {
@@ -101,57 +101,54 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900 font-sans">
-      {/* Clean Top Navigation */}
+    <div className="min-h-screen flex flex-col bg-black text-white selection:bg-[#FF3333] selection:text-white">
+      {/* Black Navbar */}
       <Header />
 
-      {/* Main Dashboard Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-        {/* Page Hero Header */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <div className="flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
-                <Sparkles className="w-3.5 h-3.5 text-gray-600" />
-                <span>Candidate Screening Dashboard</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                Resume Screening &amp; Ranking
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Evaluate applicant resumes with automated AI screening and rank candidates by fit score.
-              </p>
+      {/* Main Dashboard Hero with Starry Background */}
+      <div className="starry-bg border-b border-neutral-900 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            {/* System Tag */}
+            <div className="inline-flex items-center space-x-2 font-mono text-[11px] uppercase tracking-widest text-[#FF3333] mb-4 bg-black/60 px-3 py-1 border border-[#FF3333]/30">
+              <span className="w-1.5 h-1.5 bg-[#FF3333] animate-pulse" />
+              <span>// SYSTEM PROTOCOL: NEURAL_CANDIDATE_SCREENER_v2.4</span>
             </div>
 
-            {/* Quick status pill */}
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 shadow-2xs text-xs font-medium text-gray-600 self-start sm:self-center">
-              <Layers className="w-3.5 h-3.5 text-gray-500" />
-              <span>Two-Step Workflow</span>
-            </div>
+            {/* VISTA.IO Style Typography: "THE STANDARD IN NEW DATA ANALYSIS" */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase font-sans leading-[1.05]">
+              THE STANDARD IN NEW DATA ANALYSIS
+            </h1>
+
+            <p className="mt-4 font-mono text-xs sm:text-sm text-neutral-400 uppercase tracking-widest leading-relaxed">
+              Autonomous neural candidate evaluation. Multi-page dossier parsing and multi-vector rank ordering.
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Responsive Grid Layout */}
+      {/* Main Interactive Stage */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Input Section (5 cols) */}
-          <section className="lg:col-span-5 space-y-6" aria-label="Input Section">
+          {/* Left Column: Input Cards with dark olive/greenish background (5 cols) */}
+          <section className="lg:col-span-5 space-y-6" aria-label="Input Vectors">
             <div className="flex items-center justify-between px-1">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center space-x-1.5">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-gray-600" />
-                <span>Input Section</span>
+              <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-neutral-400 flex items-center space-x-2">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF3333]" />
+                <span>INPUT SPECIFICATION MATRIX</span>
               </h2>
-              <span className="text-xs text-gray-400 font-mono">
-                Step 1 &amp; 2
+              <span className="font-mono text-[10px] text-neutral-500 uppercase">
+                [ STAGE 1 &amp; 2 ]
               </span>
             </div>
 
-            {/* Step 1: Job Requirements Card */}
+            {/* Step 1: Job Description Card (Dark Olive) */}
             <JobRequirementsStep
               value={jobRequirements}
               onChange={setJobRequirements}
             />
 
-            {/* Step 2: Resume PDF Upload Zone Card */}
+            {/* Step 2: PDF Upload Area (Dark Olive) */}
             <ResumeUploadStep
               files={resumes}
               onAddFiles={handleAddFiles}
@@ -159,8 +156,8 @@ export default function DashboardPage() {
               onClearFiles={handleClearFiles}
             />
 
-            {/* Primary Action Button: Analyze & Rank Candidates */}
-            <div className="pt-1">
+            {/* Primary Action Button: Rectangular Coral/Red */}
+            <div className="pt-2">
               <AnalyzeButton
                 jobRequirements={jobRequirements}
                 resumeCount={resumes.length}
@@ -170,35 +167,35 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Right Column: Results Leaderboard Card Area (7 cols) */}
-          <section className="lg:col-span-7" aria-label="Results Leaderboard">
+          {/* Right Column: Leaderboard with Large Coral/Red Numbers (7 cols) */}
+          <section className="lg:col-span-7" aria-label="Candidate Matrix Output">
             {/* Error Banner */}
             {apiError && (
               <div
                 id="api-error-banner"
-                className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start space-x-3 shadow-xs animate-fadeIn"
+                className="mb-6 p-4 bg-[#241010] border border-[#FF3333] text-[#FF9B9B] font-mono text-xs flex items-start space-x-3 rounded-none shadow-lg animate-fadeIn"
               >
-                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <AlertCircle className="w-5 h-5 text-[#FF3333] shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="font-semibold text-red-800">
-                    Screening Request Failed
+                  <p className="font-bold text-[#FF3333] uppercase tracking-wider">
+                    // PROTOCOL EXECUTION HALTED
                   </p>
-                  <p className="mt-1 leading-relaxed text-red-700">
+                  <p className="mt-1 leading-relaxed">
                     {apiError}
                   </p>
                   <button
                     type="button"
                     onClick={handleAnalyze}
-                    className="mt-2.5 inline-flex items-center space-x-1.5 px-3 py-1 rounded-md bg-red-100 hover:bg-red-200 border border-red-300 text-xs font-semibold text-red-800 transition-colors cursor-pointer"
+                    className="mt-3 inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#FF3333] text-white font-mono text-[11px] font-bold uppercase tracking-widest hover:bg-[#E02929] transition-colors rounded-none cursor-pointer"
                   >
                     <RefreshCw className="w-3 h-3" />
-                    <span>Retry Request</span>
+                    <span>RETRY PROTOCOL</span>
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Dynamic Stage: Loading, Leaderboard, or Initial Preview */}
+            {/* Dynamic Stage: Loading, Leaderboard, or Initial Stage */}
             {isLoading ? (
               <LoadingScreeningState fileCount={resumes.length} />
             ) : candidates.length > 0 ? (
@@ -216,19 +213,8 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Clean White Footer */}
-      <footer className="border-t border-gray-200 bg-white py-6 text-center text-xs text-gray-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© 2026 TalentRank. Modern Candidate Screening System.</p>
-          <p className="flex items-center space-x-2 text-gray-400">
-            <span>FastAPI Backend</span>
-            <span>•</span>
-            <span>Next.js Dashboard</span>
-            <span>•</span>
-            <span>PyMuPDF Text Extraction</span>
-          </p>
-        </div>
-      </footer>
+      {/* Solid Black Footer with Newsletter Input on Right */}
+      <Footer />
     </div>
   );
 }
