@@ -27,28 +27,24 @@ export default function AnalyzeButton({
         id="analyze-rank-btn"
         disabled={!isReady}
         onClick={onAnalyze}
-        className={`w-full py-4 px-6 rounded-none font-mono uppercase tracking-widest font-bold text-xs sm:text-sm flex items-center justify-center space-x-3 transition-all duration-200 cursor-pointer ${
+        className={`w-full rounded-none bg-[#FF5050] hover:bg-[#e64040] text-white px-8 py-4 font-mono text-xs sm:text-sm uppercase font-bold tracking-widest transition-colors flex items-center justify-center space-x-3 cursor-pointer ${
           isLoading
-            ? "bg-[#FF5050]/80 text-white cursor-wait"
-            : isReady
-            ? "bg-[#FF5050] hover:bg-[#e64040] text-white shadow-xl hover:-translate-y-0.5"
-            : "bg-[#3B403D] text-gray-400 border border-white/10 cursor-not-allowed"
+            ? "opacity-85 cursor-wait"
+            : !isReady
+            ? "opacity-60 cursor-not-allowed hover:bg-[#FF5050]"
+            : "hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0"
         }`}
       >
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 text-white animate-spin shrink-0" />
-            <span className="tracking-widest">PROCESSING CANDIDATE DOSSIERS...</span>
+            <span>Processing Candidates...</span>
           </>
         ) : (
           <>
-            <Zap className={`w-4 h-4 ${isReady ? "text-white fill-white" : "text-gray-400"}`} />
+            <Zap className="w-4 h-4 text-white fill-white shrink-0" />
             <span>Analyze &amp; Rank Candidates</span>
-            <ArrowRight
-              className={`w-4 h-4 transition-transform ${
-                isReady ? "group-hover:translate-x-1" : ""
-              }`}
-            />
+            <ArrowRight className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-1" />
           </>
         )}
       </button>

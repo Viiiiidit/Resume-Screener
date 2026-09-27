@@ -105,12 +105,12 @@ export default function ResumeUploadStep({
   };
 
   return (
-    <div className="bg-[#3B403D] border border-white/10 p-6 sm:p-7 shadow-2xl relative rounded-none transition-all">
-      {/* Step Header */}
-      <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
+    <div className="bg-[#3B403D] border border-white/10 p-8 shadow-2xl relative rounded-none transition-all">
+      {/* Step Header with exact label */}
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
         <div className="flex items-center space-x-3">
-          <div className="w-3 h-3 bg-[#FF5050] rotate-45 shrink-0" />
-          <h2 className="font-mono text-sm uppercase font-bold text-white tracking-widest">
+          <div className="w-3.5 h-3.5 bg-[#FF5050] rotate-45 shrink-0" />
+          <h2 className="font-mono text-base uppercase font-bold text-white tracking-widest">
             2. Upload Applicant Resumes (PDFs)
           </h2>
         </div>

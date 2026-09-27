@@ -34,15 +34,18 @@ export default function JobRequirementsStep({
   const charCount = value.length;
 
   return (
-    <div className="bg-[#3B403D] border border-white/10 p-6 sm:p-7 shadow-2xl relative rounded-none transition-all">
-      {/* Top accent header */}
-      <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
-        <div className="flex items-center space-x-3">
-          <div className="w-3 h-3 bg-[#FF5050] rotate-45 shrink-0" />
-          <h2 className="font-mono text-sm uppercase font-bold text-white tracking-widest">
+    <div className="bg-[#3B403D] border border-white/10 p-8 shadow-2xl relative rounded-none transition-all">
+      {/* Top accent header with exact label */}
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+        <label
+          htmlFor="job-requirements-input"
+          className="flex items-center space-x-3 cursor-pointer"
+        >
+          <div className="w-3.5 h-3.5 bg-[#FF5050] rotate-45 shrink-0" />
+          <span className="font-mono text-base uppercase font-bold text-white tracking-widest">
             1. Enter Job Requirements
-          </h2>
-        </div>
+          </span>
+        </label>
 
         {value && (
           <button
