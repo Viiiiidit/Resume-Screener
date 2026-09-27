@@ -6,7 +6,6 @@ import Hero from "@/components/Hero";
 import ServiceCards from "@/components/ServiceCards";
 import TypographySections from "@/components/TypographySections";
 import PreFooterCTA from "@/components/PreFooterCTA";
-import Footer from "@/components/Footer";
 
 export default function VistaIoPage() {
   return (
@@ -26,9 +25,6 @@ export default function VistaIoPage() {
 
         {/* 5. Pre-Footer CTA */}
         <PreFooterCTA />
-
-        {/* 6. Footer */}
-        <Footer />
       </main>
     </div>
   );
