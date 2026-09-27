@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import Link from "next/link";
 import { User } from "lucide-react";
 
 export default function Navbar() {
@@ -8,21 +7,21 @@ export default function Navbar() {
     <header className="bg-black sticky top-0 z-50 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Left: Logo with small red abstract icon */}
-        <a href="#" className="flex items-center space-x-2.5">
+        <Link href="/" className="flex items-center space-x-2.5">
           <div className="w-3.5 h-3.5 bg-[#FF5050] rotate-45 shrink-0" />
           <span className="font-mono text-xl font-bold tracking-wider text-white">
             VISTA.IO
           </span>
-        </a>
+        </Link>
 
         {/* Center: Links Solutions and Vision */}
         <nav className="hidden md:flex items-center space-x-10 font-mono text-sm tracking-wider text-white">
-          <a
-            href="#services"
+          <Link
+            href="/solutions"
             className="hover:text-[#FF5050] transition-colors uppercase"
           >
             Solutions
-          </a>
+          </Link>
           <a
             href="#mission"
             className="hover:text-[#FF5050] transition-colors uppercase"

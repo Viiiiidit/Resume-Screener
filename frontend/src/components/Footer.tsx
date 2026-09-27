@@ -33,7 +33,7 @@ export default function Footer() {
 
               {/* Vertical Links (Solutions, Vision, Privacy Policy, Accessibility Statement) */}
               <nav className="flex flex-col space-y-3 font-mono text-sm text-gray-300">
-                <a href="#services" className="hover:text-[#FF5050] transition-colors">
+                <a href="/solutions" className="hover:text-[#FF5050] transition-colors">
                   Solutions
                 </a>
                 <a href="#mission" className="hover:text-[#FF5050] transition-colors">
